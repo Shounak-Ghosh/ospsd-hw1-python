@@ -21,11 +21,17 @@ jobs:
           command: |
             uv venv
             source .venv/bin/activate && pip install pytest pytest-cov ruff mypy coverage
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .venv
 
   lint-and-static-analysis:
     executor: python-executor
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: Run Ruff (Code Formatting and Linting)
           command: |
@@ -39,6 +45,8 @@ jobs:
     executor: python-executor
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: Run Unit Tests with Coverage
           command: |
@@ -53,6 +61,8 @@ jobs:
     executor: python-executor
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: Generate HTML Coverage Report
           command: |
