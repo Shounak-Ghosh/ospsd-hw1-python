@@ -65,6 +65,12 @@ workflows:
   main-workflow:
     jobs:
       - setup
-      - lint-and-static-analysis
-      - test
-      - generate-html-coverage-report
+      - lint-and-static-analysis:
+          requires:
+            - setup
+      - test:
+          requires:
+            - setup
+      - generate-html-coverage-report:
+          requires:
+            - test
