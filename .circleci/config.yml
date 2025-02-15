@@ -1,29 +1,70 @@
 version: 2.1
 
-jobs:
-  build:
+executors:
+  python-executor:
     docker:
-      - image: cimg/python:3.12
-    
+      - image: cimg/python:3.11  
+    working_directory: ~/repo
+
+jobs:
+  setup:
+    executor: python-executor
     steps:
       - checkout
-      
       - run:
-          name: Install Dependencies
+          name: Install UV Dependency Manager
           command: |
-            python -m pip install --upgrade pip pytest coverage mypy ruff
-      
+            python -m pip install --upgrade pip
+            pip install uv
       - run:
-          name: Run Tests with Coverage Report
-          command: pytest --cov=src --cov-report=xml
-      
-      - run:
-          name: Static Analysis (ruff and mypy)
+          name: Install Dependencies with UV
           command: |
-            ruff src tests && mypy src
-      
+            uv venv
+            source .venv/bin/activate && pip install pytest pytest-cov ruff mypy coverage
+
+  lint-and-static-analysis:
+    executor: python-executor
+    steps:
+      - checkout
+      - run:
+          name: Run Ruff (Code Formatting and Linting)
+          command: |
+            source .venv/bin/activate && ruff check src tests --select ALL
+      - run:
+          name: Run Mypy (Static Type Checking)
+          command: |
+            source .venv/bin/activate && mypy src
+
+  test:
+    executor: python-executor
+    steps:
+      - checkout
+      - run:
+          name: Run Unit Tests with Coverage
+          command: |
+            source .venv/bin/activate && PYTHONPATH=$(pwd) pytest --cov=src --cov-report=xml --junitxml=test-results/results.xml -v
+
       - store_test_results:
-          path: test-results
-      
+          path: test-results/
       - store_artifacts:
-          path: coverage.xml          
+          path: coverage.xml
+
+  generate-html-coverage-report:
+    executor: python-executor
+    steps:
+      - checkout
+      - run:
+          name: Generate HTML Coverage Report
+          command: |
+            source .venv/bin/activate && pytest --cov=src --cov-report=html -v
+      - store_artifacts:
+          path: htmlcov/
+
+workflows:
+  version: 2.1
+  main-workflow:
+    jobs:
+      - setup
+      - lint-and-static-analysis
+      - test
+      - generate-html-coverage-report
