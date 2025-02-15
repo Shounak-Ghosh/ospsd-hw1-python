@@ -1,0 +1,6 @@
+[tool.ruff]
+select = ["ALL"]
+ignore = ["ANN101"]  # Disable type hints for self/cls
+
+[tool.mypy]
+strict = true
