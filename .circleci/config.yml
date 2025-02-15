@@ -20,7 +20,12 @@ jobs:
           name: Install Dependencies with UV
           command: |
             uv venv
-            source .venv/bin/activate && pip install pytest pytest-cov ruff mypy coverage
+            .venv/bin/python -m pip install pytest pytest-cov ruff mypy coverage
+      - run:
+          name: Verify Installation
+          command: |
+            .venv/bin/python -m pip list
+            .venv/bin/pip -m pytest --version
       - persist_to_workspace:
           root: .
           paths:
@@ -47,6 +52,11 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: 
+          name: Verify Virtual Environment Exists
+          command: |
+            ls -la .venv  # Ensure .venv exists
+            .venv/bin/python -m pip list  # Verify pytest is installed
       - run:
           name: Run Unit Tests with Coverage
           command: |
