@@ -50,8 +50,7 @@ jobs:
       - run:
           name: Run Unit Tests with Coverage
           command: |
-            source .venv/bin/activate && PYTHONPATH=$(pwd) pytest --cov=src --cov-report=xml --junitxml=test-results/results.xml -v
-
+             .venv/bin/python -m pytest --cov=src --cov-report=xml --junitxml=test-results/results.xml -v
       - store_test_results:
           path: test-results/
       - store_artifacts:
