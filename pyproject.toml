@@ -10,9 +10,9 @@ dependencies = [
 ]
 requires-python = ">=3.11"
 
-[tool.ruff]
-select = ["ALL"]
-ignore = ["ANN101"]  # Disable type hints for self/cls
+[tool.ruff.lint]
+ignore = ["D203", "D213"] # disabled these two as it aligns with PEP 257 less than those conflicted logs
+select = ["D", "E", "F", "ANN", "UP", "TRY", "EM"]
 
 [tool.mypy]
 strict = true
