@@ -20,12 +20,12 @@ jobs:
           name: Install Dependencies with UV
           command: |
             uv venv
-            .venv/bin/python -m pip install pytest pytest-cov ruff mypy coverage
+            uv pip install pytest pytest-cov ruff mypy coverage
       - run:
           name: Verify Installation
           command: |
-            .venv/bin/python -m pip list
-            .venv/bin/pip -m pytest --version
+            uv pip list  # Check installed packages
+            uv pip show pytest  # Verify pytest is installed
       - persist_to_workspace:
           root: .
           paths:
@@ -40,11 +40,11 @@ jobs:
       - run:
           name: Run Ruff (Code Formatting and Linting)
           command: |
-            source .venv/bin/activate && ruff check src tests --select ALL
+            uv run ruff check src tests --select ALL
       - run:
           name: Run Mypy (Static Type Checking)
           command: |
-            source .venv/bin/activate && mypy src
+            uv run mypy src
 
   test:
     executor: python-executor
@@ -55,12 +55,11 @@ jobs:
       - run: 
           name: Verify Virtual Environment Exists
           command: |
-            ls -la .venv  # Ensure .venv exists
-            .venv/bin/python -m pip list  # Verify pytest is installed
+            uv pip list  # Ensure pytest is installed
       - run:
           name: Run Unit Tests with Coverage
           command: |
-             .venv/bin/python -m pytest --cov=src --cov-report=xml --junitxml=test-results/results.xml -v
+             uv run pytest --cov=src --cov-report=xml --junitxml=test-results/results.xml -v
       - store_test_results:
           path: test-results/
       - store_artifacts:
@@ -75,7 +74,7 @@ jobs:
       - run:
           name: Generate HTML Coverage Report
           command: |
-            source .venv/bin/activate && pytest --cov=src --cov-report=html -v
+            uv run pytest --cov=src --cov-report=html -v
       - store_artifacts:
           path: htmlcov/
 
