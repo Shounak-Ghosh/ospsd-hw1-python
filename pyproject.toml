@@ -1,6 +1,22 @@
+[project]
+name = "OSPSD-HW1-PYTHON"
+version = "0.1.0"
+description = "An advanced template repository for Python projects."
+dependencies = [
+    "pytest",
+    "ruff",
+    "mypy",
+    "coverage"
+]
+requires-python = ">=3.11"
+
 [tool.ruff]
 select = ["ALL"]
 ignore = ["ANN101"]  # Disable type hints for self/cls
 
 [tool.mypy]
 strict = true
+
+[build-system]
+requires = ["uv", "setuptools"]
+build-backend = "setuptools.build_meta"
