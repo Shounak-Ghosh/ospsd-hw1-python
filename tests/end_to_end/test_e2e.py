@@ -1,6 +1,6 @@
-from src.calculator import add
-from src.logger import OperationLogger
-from src.notifier import Notifier
+from src.calculator.calculator import add
+from src.logger.logger import OperationLogger
+from src.notifier.notifier import Notifier
 
 def test_end_to_end():
     logger = OperationLogger()

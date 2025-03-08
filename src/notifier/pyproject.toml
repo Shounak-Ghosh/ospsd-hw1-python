@@ -1,0 +1,27 @@
+[project]
+name = "notifier"
+version = "0.1.0"
+description = "A simple notifier"
+dependencies = [
+    "uv", 
+    "pytest", 
+    "coverage" 
+]
+ignore = ["D203", "D213"] 
+requires-python = ">=3.11"
+select = ["D", "E", "F", "ANN", "UP", "TRY", "EM"]
+exclude = ["test_*.py"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+
+warn_unused_configs = true
+strict = true
+
+[build-system]
+requires = ["uv", "setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["notifier.py", "test_notifier.py"]

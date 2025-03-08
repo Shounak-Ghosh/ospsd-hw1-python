@@ -1,22 +1,46 @@
-[project]
-name = "OSPSD-HW1-PYTHON"
-version = "0.1.0"
-description = "An advanced template repository for Python projects."
-dependencies = [
-    "pytest",
-    "ruff",
-    "mypy",
-    "coverage"
-]
-requires-python = ">=3.11"
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
 
-[tool.ruff.lint]
-ignore = ["D203", "D213"] # disabled these two as it aligns with PEP 257 less than those conflicted logs
-select = ["D", "E", "F", "ANN", "UP", "TRY", "EM"]
+[project]
+name = "ospsd-hw1-python"
+version = "0.1.0"
+description = "OSPSD HW1 Python Project"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-html>=4.0.0"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["calculator", "logger", "notifier"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=src --cov-report=term-missing --cov-report=html --html=test-results/report.html --self-contained-html -v"
+testpaths = [
+    "tests/integration",
+    "tests/end_to_end",
+    "src/calculator",
+    "src/logger",
+    "src/notifier"
+]
+python_files = ["test_*.py"]
+
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "src/__init__.py",
+    "src/**/test_*.py",
+    "src/**/__init__.py"
+]
 
 [tool.mypy]
-strict = true
-
-[build-system]
-requires = ["uv", "setuptools"]
-build-backend = "setuptools.build_meta"
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+exclude = ["test_.*\\.py$"]  # Exclude all test files 

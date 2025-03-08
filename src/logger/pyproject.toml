@@ -1,0 +1,26 @@
+[project]
+name = "logger"
+version = "0.1.0"
+description = "A simple logger."
+dependencies = [
+    "uv",  
+    "pytest",  
+    "coverage"  
+]
+requires-python = ">=3.11"
+
+[tool.ruff.lint]
+ignore = ["D203", "D213"] 
+select = ["D", "E", "F", "ANN", "UP", "TRY", "EM"]
+exclude = ["test_*.py"]
+
+
+[tool.mypy]
+strict = true
+
+[build-system]
+requires = ["uv", "setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["logger.py", "test_logger.py"]

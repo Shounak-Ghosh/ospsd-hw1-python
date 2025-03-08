@@ -1,13 +1,12 @@
 from datetime import datetime
-from typing import List
 
 class OperationLogger:
     def __init__(self) -> None:
-        self.history: List[str] = []
+        self.history: list[str] = []
 
     def log_operation(self, operation: str) -> None:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.history.append(f"{operation} @ {timestamp}")
 
-    def get_history(self) -> List[str]:
+    def get_history(self) -> list[str]:
         return self.history

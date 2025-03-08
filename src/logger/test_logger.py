@@ -1,4 +1,4 @@
-from src.logger import OperationLogger
+from .logger import OperationLogger
 
 def test_log_operation():
     logger = OperationLogger()

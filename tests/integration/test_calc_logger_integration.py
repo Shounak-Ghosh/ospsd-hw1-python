@@ -1,5 +1,5 @@
-from src.calculator import add
-from src.logger import OperationLogger
+from src.calculator.calculator import add
+from src.logger.logger import OperationLogger
 
 def test_calc_logger_integration():
     logger = OperationLogger()

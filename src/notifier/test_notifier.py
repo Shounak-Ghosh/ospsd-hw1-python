@@ -1,4 +1,4 @@
-from src.notifier import Notifier
+from .notifier import Notifier
 
 def test_send_notification():
     notifier = Notifier(threshold=10)

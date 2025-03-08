@@ -1,5 +1,5 @@
-from src.logger import OperationLogger
-from src.notifier import Notifier
+from src.logger.logger import OperationLogger
+from src.notifier.notifier import Notifier
 
 def test_logger_notifier_integration():
     logger = OperationLogger()
