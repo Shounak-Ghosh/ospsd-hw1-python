@@ -1,7 +1,7 @@
 # ospsd-hw1-python
 Open Source Professional Software Development hw1: Creating a template Python CI/CD repository
 
-This repository provides a foundation for Python-based projects with integrated CI/CD pipelines, testing frameworks, static analysis, and code formatting.
+This repository provides a foundation for Python-based projects with integrated CI/CD pipelines, testing frameworks, static analysis, and code formatting. Below details specific instructions on how to utilize this template.
 
 ## Features
 - CI/CD Pipeline: Integrated with CircleCI to automate testing, static analysis, and code coverage reporting
@@ -27,14 +27,10 @@ This repository provides a foundation for Python-based projects with integrated 
     python -m pip install --upgrade pip
     pip install uv
 
-3. Create virtual environment and run it:
-    uv venv
-    source .venv/bin/activate
-
-4. Install dependencies:
+3. Install dependencies:
     pip install pytest pytest-cov ruff mypy coverage
 
-### Executing tests
+### Executing Tests
 1. Static analysis (using pytest, ruff, mypy, coverage)
     uv run ruff check
     uv run mypy src
