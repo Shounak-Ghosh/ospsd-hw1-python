@@ -5,7 +5,9 @@ description = "A simple logger."
 dependencies = [
     "uv",  
     "pytest",  
-    "coverage"  
+    "coverage",
+    "ruff",
+    "mypy"
 ]
 requires-python = ">=3.11"
 
@@ -23,4 +25,4 @@ requires = ["uv", "setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-where = ["logger.py", "test_logger.py"]
+where = ["."]
