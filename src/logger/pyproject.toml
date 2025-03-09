@@ -11,6 +11,12 @@ dependencies = [
 ]
 requires-python = ">=3.11"
 
+[project.optional-dependencies]
+dev = [
+    "types-setuptools>=42.0.0"
+]
+
+
 [tool.ruff.lint]
 ignore = ["D203", "D213"] 
 select = ["D", "E", "F", "ANN", "UP", "TRY", "EM"]
@@ -21,7 +27,7 @@ exclude = ["test_*.py"]
 strict = true
 
 [build-system]
-requires = ["uv", "setuptools"]
+requires = ["setuptools>=42.0.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
