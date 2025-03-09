@@ -11,20 +11,22 @@ commands:
     steps:
       - checkout
       - run:
-          name: Install UV Dependency Manager
+          name: Install UV using curl
           command: |
-            python -m pip install --upgrade pip
-            pip install uv
+            curl -LsSf https://astral.sh/uv/install.sh | sh
       - run:
-          name: Install Dependencies with UV
+          name: Install Project Dependencies
           command: |
             uv venv
-            uv pip install pytest pytest-cov ruff mypy coverage
-      - run:
-          name: Verify Installation
-          command: |
-            uv pip list  # Check installed packages
-            uv pip show pytest  # Verify pytest is installed
+            # Install root project dependencies
+            uv pip install -e ".[dev]"
+            # Install component dependencies
+            cd src/calculator && uv pip install -e ".[dev]"
+            cd ../logger && uv pip install -e ".[dev]"
+            cd ../notifier && uv pip install -e ".[dev]"
+            cd ../..
+            # Install additional dev dependencies for type checking
+            uv pip install types-setuptools>=42.0.0
 
 jobs:
   lint-and-static-analysis:
@@ -34,7 +36,7 @@ jobs:
       - run:
           name: Run Ruff (Code Formatting and Linting)
           command: |
-            uv run ruff check 
+            uv run ruff check src tests
       - run:
           name: Run Mypy (Static Type Checking)
           command: |
@@ -45,31 +47,23 @@ jobs:
     steps:
       - setup-environment
       - run:
-          name: Run Unit Tests with Coverage
+          name: Run Tests and Generate Coverage
           command: |
-             uv run pytest --cov=src --cov-report=xml --junitxml=test-results/results.xml -v
+            mkdir -p test-results/pytest
+            # Using pytest configuration from pyproject.toml
+            uv run pytest
       - store_test_results:
-          path: test-results/
+          path: test-results
       - store_artifacts:
-          path: coverage.xml
-
-  generate-html-coverage-report:
-    executor: python-executor
-    steps:
-      - setup-environment
-      - run:
-          name: Generate HTML Coverage Report
-          command: |
-            uv run pytest --cov=src --cov-report=html -v
+          path: htmlcov
+          destination: coverage-report
       - store_artifacts:
-          path: htmlcov/
+          path: test-results
+          destination: test-results
 
 workflows:
   version: 2.1
-  main-workflow:
+  main:
     jobs:
       - lint-and-static-analysis
       - test
-      - generate-html-coverage-report:
-          requires:
-            - test

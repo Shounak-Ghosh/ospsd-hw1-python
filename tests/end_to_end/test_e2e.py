@@ -1,4 +1,4 @@
-from src.calculator.calculator import add
+from src.calculator import add
 from src.logger.logger import OperationLogger
 from src.notifier.notifier import Notifier
 
