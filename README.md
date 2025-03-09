@@ -23,20 +23,22 @@ This repository provides a foundation for Python-based projects with integrated 
     git clone https://github.com/Shounak-Ghosh/ospsd-hw1-python.git
     cd project-name
 
-2. Install uv:
-    python -m pip install --upgrade pip
-    pip install uv
-
-3. Install dependencies:
-    pip install pytest pytest-cov ruff mypy coverage
+2. Install uv: \
+   MacOS and Linux:
+   ```bash
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    ```
+   Windows:
+   ```bash
+    powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+   ```
+4. Install dependencies:
+    uv pip install pytest pytest-cov ruff mypy coverage
 
 ### Executing Tests
 1. Static analysis (using pytest, ruff, mypy, coverage)
     uv run ruff check
     uv run mypy src
 
-2. Tests (using pytest)
-    uv run pytest --cov=src --cov-report=xml --junitxml=test-results/results.xml -v
-
-3. Code coverage
-    uv run pytest --cov=src --cov-report=html -v
+2. Tests (using pytest) and Code Coverage:
+   uv run pytest 
