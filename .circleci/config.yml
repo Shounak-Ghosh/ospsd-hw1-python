@@ -47,19 +47,42 @@ jobs:
     steps:
       - setup-environment
       - run:
-          name: Run Tests and Generate Coverage
+          name: Run Tests
           command: |
             mkdir -p test-results/pytest
-            # Using pytest configuration from pyproject.toml
-            uv run pytest
+            # Using pytest configuration from pyproject.toml for test execution
+            uv run pytest --junitxml=test-results/pytest/junit.xml
       - store_test_results:
           path: test-results
       - store_artifacts:
-          path: htmlcov
-          destination: coverage-report
-      - store_artifacts:
           path: test-results
           destination: test-results
+      - persist_to_workspace:
+          root: .
+          paths:
+            - test-results
+
+  coverage:
+    executor: python-executor
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - setup-environment
+      - run:
+          name: Generate Coverage Reports
+          command: |
+            # Using pytest configuration from pyproject.toml which includes coverage settings
+            uv run pytest
+      - store_artifacts:
+          path: htmlcov
+          destination: coverage-html-report
+      - store_artifacts:
+          path: test-results/report.html
+          destination: test-report.html
+      - store_artifacts:
+          path: coverage.xml
+          destination: coverage.xml
 
 workflows:
   version: 2.1
@@ -67,3 +90,6 @@ workflows:
     jobs:
       - lint-and-static-analysis
       - test
+      - coverage:
+          requires:
+            - test

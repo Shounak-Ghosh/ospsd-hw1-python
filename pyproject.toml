@@ -19,7 +19,7 @@ package-dir = {"" = "src"}
 packages = ["calculator", "logger", "notifier"]
 
 [tool.pytest.ini_options]
-addopts = "--cov=src --cov-report=term-missing --cov-report=html --html=test-results/report.html --self-contained-html -v"
+addopts = "-v"
 testpaths = [
     "tests/integration",
     "tests/end_to_end",
@@ -36,6 +36,12 @@ omit = [
     "src/**/test_*.py",
     "src/**/__init__.py"
 ]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"
 
 [tool.mypy]
 python_version = "3.8"
