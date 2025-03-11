@@ -45,3 +45,6 @@ This repository provides a foundation for Python-based projects with integrated 
 
 ### CircleCI Link  
 [CircleCI](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/25/workflows/a2f416d1-16af-4a28-b80a-1837987580da)
+
+### Linter error check offs: 
+D203, D213. This is because they were conflicting with other restrictions.
