@@ -1,0 +1,12 @@
+Metadata-Version: 2.2
+Name: calculator
+Version: 0.1.0
+Summary: A simple calculator with basic operations.
+Requires-Python: >=3.11
+Requires-Dist: uv
+Requires-Dist: pytest
+Requires-Dist: coverage
+Requires-Dist: mypy
+Requires-Dist: ruff
+Provides-Extra: dev
+Requires-Dist: types-setuptools>=42.0.0; extra == "dev"

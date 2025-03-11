@@ -1,0 +1,5 @@
+uv
+pytest
+coverage
+mypy
+ruff

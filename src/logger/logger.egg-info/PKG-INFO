@@ -1,0 +1,10 @@
+Metadata-Version: 2.2
+Name: logger
+Version: 0.1.0
+Summary: A simple logger.
+Requires-Python: >=3.11
+Requires-Dist: uv
+Requires-Dist: pytest
+Requires-Dist: coverage
+Requires-Dist: ruff
+Requires-Dist: mypy
