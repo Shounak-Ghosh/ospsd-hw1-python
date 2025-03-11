@@ -1,0 +1,99 @@
+version: 2.1
+
+executors:
+  python-executor:
+    docker:
+      - image: cimg/python:3.11  
+    working_directory: ~/repo
+
+commands:
+  setup-environment:
+    steps:
+      - checkout
+      - run:
+          name: Install UV using curl
+          command: |
+            curl -LsSf https://astral.sh/uv/install.sh | sh
+      - run:
+          name: Install Project Dependencies
+          command: |
+            uv venv
+            # Install root project dependencies
+            uv pip install -e ".[dev]"
+            # Install component dependencies
+            cd src/calculator && uv pip install -e ".[dev]"
+            cd ../logger && uv pip install -e ".[dev]"
+            cd ../notifier && uv pip install -e ".[dev]"
+            cd ../..
+            # Install additional dev dependencies for type checking
+            uv pip install types-setuptools>=42.0.0
+
+jobs:
+  lint-and-static-analysis:
+    executor: python-executor
+    steps:
+      - setup-environment
+      - run:
+          name: Run Ruff (Code Formatting and Linting)
+          command: |
+            uv run ruff check src tests
+      - run:
+          name: Run Mypy (Static Type Checking)
+          command: |
+            uv run mypy src
+
+  test:
+    executor: python-executor
+    steps:
+      - setup-environment
+      - run:
+          name: Run Tests
+          command: |
+            mkdir -p test-results/pytest
+            # Run tests and generate test report
+            uv run pytest \
+              --junitxml=test-results/pytest/junit.xml \
+              --html=test-results/report.html \
+              --self-contained-html
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: test-results
+      - persist_to_workspace:
+          root: .
+          paths:
+            - test-results
+
+  coverage:
+    executor: python-executor
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - setup-environment
+      - run:
+          name: Generate Coverage Reports
+          command: |
+            # Generate coverage reports
+            uv run pytest \
+              --cov=src \
+              --cov-report=html \
+              --cov-report=xml \
+              --cov-report=term-missing
+      - store_artifacts:
+          path: htmlcov
+          destination: coverage-html-report
+      - store_artifacts:
+          path: coverage.xml
+          destination: coverage.xml
+
+workflows:
+  version: 2.1
+  main:
+    jobs:
+      - lint-and-static-analysis
+      - test
+      - coverage:
+          requires:
+            - test

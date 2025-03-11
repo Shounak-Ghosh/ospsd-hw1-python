@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ospsd-hw1-python"
+version = "0.1.0"
+description = "OSPSD HW1 Python Project"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-html>=4.0.0"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["calculator", "logger", "notifier"]
+
+[tool.pytest.ini_options]
+addopts = "-v"
+testpaths = [
+    "tests/integration",
+    "tests/end_to_end",
+    "src/calculator",
+    "src/logger",
+    "src/notifier"
+]
+python_files = ["test_*.py"]
+
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "src/__init__.py",
+    "src/**/test_*.py",
+    "src/**/__init__.py"
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+exclude = ["test_.*\\.py$"]  # Exclude all test files 
