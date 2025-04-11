@@ -19,15 +19,16 @@ commands:
           command: |
             uv venv
             # Install root project dependencies
-            uv add ".[dev]"
-            # Install component dependencies
-            cd src/calculator && uv pip install -e ".[dev]"
-            cd ../logger && uv pip install -e ".[dev]"
-            cd ../notifier && uv pip install -e ".[dev]"
-            cd ../..
-            # Install additional dev dependencies for type checking
-            uv pip install types-setuptools>=42.0.0
+            uv add --editable --dev ".[dev]"
 
+            # Install component dependencies
+            cd src/calculator && uv add --editable --dev ".[dev]"
+            cd ../logger && uv add --editable --dev ".[dev]"
+            cd ../notifier && uv add --editable --dev ".[dev]"
+            cd ../..
+
+            # Install additional dev dependencies for type checking
+            uv add --dev types-setuptools>=42.0.0
 jobs:
   lint-and-static-analysis:
     executor: python-executor
@@ -42,47 +43,28 @@ jobs:
           command: |
             uv run mypy src
 
-  test-successful:
+  test:
     executor: python-executor
     steps:
       - setup-environment
       - run:
-          name: Run Successful Tests
+          name: Run Tests
           command: |
-            mkdir -p test-results/pytest/successful
-            # Run tests for successful cases only
+            mkdir -p test-results/pytest
+            # Run tests and generate test report
             uv run pytest \
-              --junitxml=test-results/pytest/successful/junit.xml \
-              --html=test-results/successful-report.html \
-              --self-contained-html \
-              src/calculator/test_calculator.py \
-              src/logger/test_logger.py \
-              src/notifier/test_notifier.py \
-              tests/integration \
-              tests/end_to_end
+              --junitxml=test-results/pytest/junit.xml \
+              --html=test-results/report.html \
+              --self-contained-html
       - store_test_results:
-          path: test-results/pytest/successful
+          path: test-results
       - store_artifacts:
-          path: test-results/successful-report.html
-
-  test-expected-failures:
-    executor: python-executor
-    steps:
-      - setup-environment
-      - run:
-          name: Run Expected Failure Tests
-          command: |
-            mkdir -p test-results/pytest/failures
-            # Run tests specifically designed to fail or handle edge cases
-            uv run pytest \
-              --junitxml=test-results/pytest/failures/junit.xml \
-              --html=test-results/failure-report.html \
-              --self-contained-html \
-              src/calculator/test_calculator_failures.py 
-      - store_test_results:
-          path: test-results/pytest/failures
-      - store_artifacts:
-          path: test-results/failure-report.html
+          path: test-results
+          destination: test-results
+      - persist_to_workspace:
+          root: .
+          paths:
+            - test-results
 
   coverage:
     executor: python-executor
@@ -94,7 +76,7 @@ jobs:
       - run:
           name: Generate Coverage Reports
           command: |
-            # Generate coverage reports for all tests combined
+            # Generate coverage reports
             uv run pytest \
               --cov=src \
               --cov-report=html \
@@ -105,15 +87,14 @@ jobs:
           destination: coverage-html-report
       - store_artifacts:
           path: coverage.xml
+          destination: coverage.xml
 
 workflows:
+  version: 2.1
   main:
     jobs:
       - lint-and-static-analysis
-      - test-successful
-      - test-expected-failures:
-          requires:
-            - test-successful
+      - test
       - coverage:
           requires:
-            - test-successful
+            - test
