@@ -44,4 +44,4 @@ This repository provides a foundation for Python-based projects with integrated 
    uv run pytest 
 
 ### CircleCI Link  
-[CircleCI](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/25/workflows/a2f416d1-16af-4a28-b80a-1837987580da)
+[CircleCI Failure](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/54/workflows/f887c7a7-dc74-40d6-a244-98254e5c4162/jobs/128https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/25/workflows/a2f416d1-16af-4a28-b80a-1837987580da)
