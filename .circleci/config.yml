@@ -19,7 +19,7 @@ commands:
           command: |
             uv venv
             # Install root project dependencies
-            uv add -e ".[dev]"
+            uv add ".[dev]"
             # Install component dependencies
             cd src/calculator && uv pip install -e ".[dev]"
             cd ../logger && uv pip install -e ".[dev]"
