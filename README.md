@@ -33,7 +33,7 @@ This repository provides a foundation for Python-based projects with integrated 
     powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
    ```
 4. Install dependencies:
-    uv pip install pytest pytest-cov ruff mypy coverage
+    uv add pytest pytest-cov ruff mypy coverage 
 
 ### Executing Tests
 1. Static analysis (using pytest, ruff, mypy, coverage)

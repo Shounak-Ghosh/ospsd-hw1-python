@@ -20,7 +20,7 @@ dev = [
 [tool.ruff.lint]
 ignore = ["D203", "D213"] 
 select = ["D", "E", "F", "ANN", "UP", "TRY", "EM"]
-exclude = ["test_*.py"]
+
 
 [tool.mypy]
 strict = true

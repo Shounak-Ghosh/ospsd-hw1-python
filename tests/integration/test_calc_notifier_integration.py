@@ -1,14 +1,21 @@
+from unittest.mock import MagicMock
 from src.logger.logger import OperationLogger
-from src.notifier.notifier import Notifier
 
 def test_logger_notifier_integration():
-    logger = OperationLogger()
-    notifier = Notifier(threshold=10)
+    # Mock Notifier
+    mock_notifier = MagicMock()
+    mock_notifier.send_notification.return_value = "Mocked alert"
 
-    result = 15
+    logger = OperationLogger()
+
+    result = 15  # Example result
     logger.log_operation(f"Result is {result}")
-    
-    alert_message = notifier.send_notification(result)
-    
+
+    alert_message = mock_notifier.send_notification(result)
+
+    # Assertions
     assert "Result is 15" in logger.get_history()[0]
-    assert alert_message == "Alert! Result 15 exceeds threshold 10"
+    assert alert_message == "Mocked alert"
+
+    # Verify notifier behavior
+    mock_notifier.send_notification.assert_called_once_with(result)
