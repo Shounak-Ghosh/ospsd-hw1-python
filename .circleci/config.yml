@@ -37,11 +37,11 @@ jobs:
       - run:
           name: Run Ruff (Code Formatting and Linting)
           command: |
-            true
+            uv run ruff check src tests
       - run:
           name: Run Mypy (Static Type Checking)
           command: |
-            true
+            uv run mypy src
 
   test:
     executor: python-executor
