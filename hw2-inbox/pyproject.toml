@@ -3,11 +3,14 @@ name = "Gmail-inbox-client"
 version = "0.1.0"
 description = "A Python-based Gmail inbox client for managing and interacting with email messages."
 dependencies = [
-    "uv", 
-    "pytest",  
+    "uv",
+    "pytest",
     "coverage",
     "mypy",
-    "ruff"
+    "ruff",
+    "google-api-python-client>=2.166.0",
+    "google-auth-httplib2>=0.2.0",
+    "google-auth-oauthlib>=1.2.1",
 ]
 requires-python = ">=3.11"
 
