@@ -19,15 +19,16 @@ commands:
           command: |
             uv venv
             # Install root project dependencies
-            uv pip install -e ".[dev]"
-            # Install component dependencies
-            cd src/calculator && uv pip install -e ".[dev]"
-            cd ../logger && uv pip install -e ".[dev]"
-            cd ../notifier && uv pip install -e ".[dev]"
-            cd ../..
-            # Install additional dev dependencies for type checking
-            uv pip install types-setuptools>=42.0.0
+            uv add --editable --dev ".[dev]"
 
+            # Install component dependencies
+            cd src/calculator && uv add --editable --dev ".[dev]"
+            cd ../logger && uv add --editable --dev ".[dev]"
+            cd ../notifier && uv add --editable --dev ".[dev]"
+            cd ../..
+
+            # Install additional dev dependencies for type checking
+            uv add --dev types-setuptools>=42.0.0
 jobs:
   lint-and-static-analysis:
     executor: python-executor

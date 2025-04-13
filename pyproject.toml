@@ -9,9 +9,12 @@ description = "OSPSD HW1 Python Project"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
+    "coverage>=7.6.12",
+    "mypy>=1.15.0",
     "pytest>=7.0.0",
     "pytest-cov>=4.1.0",
-    "pytest-html>=4.0.0"
+    "pytest-html>=4.0.0",
+    "ruff>=0.11.5",
 ]
 
 [tool.setuptools]
@@ -27,7 +30,7 @@ testpaths = [
     "src/logger",
     "src/notifier"
 ]
-python_files = ["test_*.py"]
+python_files = ["test_*.py"] # Let .toml file know testpath structure
 
 [tool.coverage.run]
 source = ["src"]
@@ -49,4 +52,4 @@ warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
 check_untyped_defs = true
-exclude = ["test_.*\\.py$"]  # Exclude all test files 
+  
