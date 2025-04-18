@@ -1,36 +1,40 @@
+[build-system]
+requires = ["uv"]
+build-backend = "uv.build"
+
 [project]
 name = "Gmail-inbox-client"
 version = "0.1.0"
 description = "A Python-based Gmail inbox client for managing and interacting with email messages."
-dependencies = [
-    "uv",
-    "pytest",
-    "coverage",
-    "mypy",
-    "ruff",
-    "google-api-python-client>=2.166.0",
-    "google-auth-httplib2>=0.2.0",
-    "google-auth-oauthlib>=1.2.1",
-]
-requires-python = ">=3.11"
+readme = "README.md"
+requires-python = ">=3.9"
+
+[tool.uv.sources]
+interface = { path = "./interface" }
+implementation = { path = "./implementation" }
 
 [project.optional-dependencies]
 dev = [
-    "types-setuptools>=42.0.0"
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-html>=4.0.0",
+    "pytest-mock>=3.14.0",
+    "mypy>=1.0.0",
+    "ruff>=0.3.0"
 ]
 
-[tool.ruff.lint]
-ignore = ["D203", "D213"] 
-select = ["D", "E", "F", "ANN", "UP", "TRY", "EM"]
+[tool.uv.workspace]
+members = ["interface", "implementation"]
+
+[tool.pytest.ini_options]
+addopts = "-v"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
 
 [tool.mypy]
-strict = true
-
-[build-system]
-requires = ["setuptools>=42.0.0"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools.packages.find]
-where = ["."]
-exclude = ["tests*", "test_*.py"]
-
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+exclude = ["test_.*\\.py$"]
