@@ -3,7 +3,6 @@
 from typing import List, Dict, Any
 import os
 import base64
-import json
 from email.mime.text import MIMEText
 
 from google.auth.transport.requests import Request
@@ -15,7 +14,7 @@ from googleapiclient.discovery import build
 class GmailClient:
     SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.service = None
         self.user_id = "me"
 
@@ -28,7 +27,9 @@ class GmailClient:
                 if creds and creds.expired and creds.refresh_token:
                     creds.refresh(Request())
                 else:
-                    flow = InstalledAppFlow.from_client_secrets_file("credentials.json", self.SCOPES)
+                    flow = InstalledAppFlow.from_client_secrets_file(
+                        "credentials.json", self.SCOPES
+                    )
                     creds = flow.run_local_server(port=0)
                 with open("token.json", "w") as token:
                     token.write(creds.to_json())
@@ -59,13 +60,26 @@ class GmailClient:
 
     def get_emails(self, query: str) -> List[Dict[str, Any]]:
         try:
-            response = self.service.users().messages().list(userId=self.user_id, q=query).execute()
+            response = (
+                self.service.users()
+                .messages()
+                .list(userId=self.user_id, q=query)
+                .execute()
+            )
             messages = response.get("messages", [])
             email_list = []
 
             for msg in messages[:10]:  # Limit to 10 for performance
-                msg_data = self.service.users().messages().get(userId=self.user_id, id=msg["id"]).execute()
-                headers = {h["name"]: h["value"] for h in msg_data["payload"]["headers"]}
+                msg_data = (
+                    self.service.users()
+                    .messages()
+                    .get(userId=self.user_id, id=msg["id"])
+                    .execute()
+                )
+                headers = {
+                    h["name"]: h["value"]
+                    for h in msg_data["payload"]["headers"]
+                }
                 snippet = msg_data.get("snippet", "")
                 email_list.append({
                     "id": msg["id"],
@@ -81,14 +95,24 @@ class GmailClient:
 
     def get_email_content(self, email_id: str) -> Dict[str, Any]:
         try:
-            msg = self.service.users().messages().get(userId=self.user_id, id=email_id, format="full").execute()
-            headers = {h["name"]: h["value"] for h in msg["payload"]["headers"]}
+            msg = (
+                self.service.users()
+                .messages()
+                .get(userId=self.user_id, id=email_id, format="full")
+                .execute()
+            )
+            headers = {
+                h["name"]: h["value"]
+                for h in msg["payload"]["headers"]
+            }
             parts = msg["payload"].get("parts", [])
             body = ""
 
             for part in parts:
                 if part["mimeType"] == "text/plain":
-                    body = base64.urlsafe_b64decode(part["body"]["data"]).decode("utf-8")
+                    body = base64.urlsafe_b64decode(
+                        part["body"]["data"]
+                    ).decode("utf-8")
                     break
 
             return {
@@ -107,8 +131,13 @@ class GmailClient:
             message = MIMEText(body)
             message["to"] = to
             message["subject"] = subject
-            raw_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
-            self.service.users().messages().send(userId=self.user_id, body={"raw": raw_message}).execute()
+            raw_message = base64.urlsafe_b64encode(
+                message.as_bytes()
+            ).decode()
+            self.service.users().messages().send(
+                userId=self.user_id,
+                body={"raw": raw_message}
+            ).execute()
             return True
         except Exception as e:
             print(f"[send_email] Failed: {e}")
@@ -128,7 +157,12 @@ class GmailClient:
 
     def detects_spam_email(self, email_id: str) -> bool:
         try:
-            msg = self.service.users().messages().get(userId=self.user_id, id=email_id, format="metadata").execute()
+            msg = (
+                self.service.users()
+                .messages()
+                .get(userId=self.user_id, id=email_id, format="metadata")
+                .execute()
+            )
             labels = msg.get("labelIds", [])
             return "SPAM" in labels
         except Exception as e:
@@ -137,12 +171,26 @@ class GmailClient:
 
     def unsubscribe_from_email_sender(self, email_id: str) -> bool:
         try:
-            msg = self.service.users().messages().get(userId=self.user_id, id=email_id, format="full").execute()
-            headers = {h["name"]: h["value"] for h in msg["payload"]["headers"]}
-            unsubscribe_links = [v for k, v in headers.items() if k.lower() == "list-unsubscribe"]
+            msg = (
+                self.service.users()
+                .messages()
+                .get(userId=self.user_id, id=email_id, format="full")
+                .execute()
+            )
+            headers = {
+                h["name"]: h["value"]
+                for h in msg["payload"]["headers"]
+            }
+            unsubscribe_links = [
+                v for k, v in headers.items()
+                if k.lower() == "list-unsubscribe"
+            ]
 
             if unsubscribe_links:
-                print(f"[unsubscribe_from_email_sender] Unsubscribe link: {unsubscribe_links[0]}")
+                print(
+                    f"[unsubscribe_from_email_sender] "
+                    f"Unsubscribe link: {unsubscribe_links[0]}"
+                )
                 return True
             return False
         except Exception as e:
