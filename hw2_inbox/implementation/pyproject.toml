@@ -1,8 +1,7 @@
 [project]
-name = "hw2_inbox"
+name = "implementation"
 version = "0.1.0"
 description = "Gmail client implementation"
-readme = "README.md"
 requires-python = ">=3.9"
 
 [dependencies]
@@ -13,12 +12,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-package-dir = {"" = "src"}
-packages = ["hw2_inbox"]
+packages = ["src"]
+package-dir = {"" = "."}
 
-[tool.mypy]
-python_version = "3.9"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-check_untyped_defs = true
+[tool.pytest.ini_options]
+pythonpath = ["."] 

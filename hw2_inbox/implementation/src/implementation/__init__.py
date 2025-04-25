@@ -1,4 +1,4 @@
-"""Implementation package for Gmail client."""
+"""Implementation module."""
 
 from .gmail_client import GmailClient
 

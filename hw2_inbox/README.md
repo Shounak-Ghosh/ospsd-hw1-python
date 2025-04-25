@@ -1,43 +1,30 @@
-# Gmail Client Interface
-This interface specifies the core functionality of the Gmail Client, encompassing connection management, authentication, and email operations. The client is designed to integrate seamlessly with other team projects including AI Conversation Client, Chat Client, and Issue Tracker Client.
+# hw2_inbox_package
 
----
+A Python package for Gmail client implementation using uv as the package manager.
 
-## Project Overview
-The project implements a Gmail client interface with the following core capabilities:
-- Establish connection with Gmail servers
-- User authentication via email/password
-- OAuth token-based authentication
-- Email composition and sending
-- Spam detection and management
-- Email subscription management
+## Installation
 
-The following features are explicitly **out-of-scope**:
-- Mailbox-specific operations (e.g., folder management)
-- UI integration or rendering logic
-- Offline caching or synchronization
+```bash
+# Install uv if you haven't already
+pip install uv
 
-## Setup Instructions
-Create and activate a virtual environment
+# Install the package
+uv pip install .
 ```
-uv venv
-source .venv/bin/activate  # Or .venv\Scripts\activate on Windows
-```
-Install  packages and dependencies
-```
-uv pip install -e .        # Install the full workspace
-uv add --dev pytest pytest-mock pytest-cov mypy ruff
-```
-Run tests
-```
+
+## Development
+
+```bash
+# Install development dependencies
+uv pip install -e ".[dev]"
+
+# Run tests
 pytest
 ```
-Run Type Checker
-```
-mypy interface/ implementation/
-```
-Run Linter
-```
-ruff check interface/ implementation/
-```
+
+## Project Structure
+
+- `implementation/`: Contains the Gmail client implementation
+- `interface/`: Contains the interface definitions
+- `tests/`: Contains test files 
 

@@ -1,7 +1,7 @@
 from typing import List, Dict
 from abc import ABC, abstractmethod
 
-class GmailClient(ABC):
+class GmailClientInterface(ABC):
     """
     Interface definition for a Gmail-based email client.
     This interface specifies core functionalities for email management including

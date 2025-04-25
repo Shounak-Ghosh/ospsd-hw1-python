@@ -5,14 +5,19 @@ description = "Gmail client implementation"
 readme = "README.md"
 requires-python = ">=3.9"
 
-[dependencies]
-interface = { workspace = true }
+dependencies = [
+    "google-api-python-client>=2.166.0",
+    "google-auth-httplib2>=0.2.0",
+    "google-auth-oauthlib>=1.2.1",
+]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
     "pytest-mock>=3.0.0",
-    "mypy>=1.0.0"
+    "mypy>=1.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-html>=4.0.0",
 ]
 
 [build-system]
@@ -20,8 +25,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
+packages = ["implementation", "interface"]
 package-dir = {"" = "."}
-packages = ["implementation", "tests"]
 
 [tool.mypy]
 python_version = "3.9"
@@ -34,3 +39,4 @@ check_untyped_defs = true
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-v"
+pythonpath = ["."]
