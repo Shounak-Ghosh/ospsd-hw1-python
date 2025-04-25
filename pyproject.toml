@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ospsd-hw1-python"
+name = "hw2_inbox_package"
 version = "0.1.0"
-description = "OSPSD HW1 Python Project"
+description = "Gmail client implementation"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
@@ -30,22 +30,17 @@ ignore = [
 ]
 
 [tool.setuptools]
-package-dir = {"" = "src"}
-packages = ["calculator", "logger", "notifier"]
+packages = ["hw2_inbox_package", "hw2_inbox_package.implementation", "hw2_inbox_package.interface"]
+package-dir = {"" = "."}
 
 [tool.pytest.ini_options]
 addopts = "-v"
-testpaths = [
-    "tests/integration",
-    "tests/end_to_end",
-    "src/calculator",
-    "src/logger",
-    "src/notifier"
-]
+testpaths = ["hw2_inbox_package/tests"]
 python_files = ["test_*.py"]
+pythonpath = [".", "hw2_inbox_package"]
 
 [tool.coverage.run]
-source = ["src"]
+source = ["hw2_inbox_package"]
 
 [tool.coverage.html]
 directory = "htmlcov"
@@ -54,7 +49,7 @@ directory = "htmlcov"
 output = "coverage.xml"
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.9"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
