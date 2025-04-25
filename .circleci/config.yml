@@ -26,7 +26,7 @@ commands:
             cd ../notifier && uv pip install -e ".[dev]"
             cd ../..
             # Install hw2-inbox dependencies
-            cd hw2_inbox_package && uv pip install -e ".[dev]"
+            cd hw2_inbox && uv pip install -e ".[dev]"
             cd ..
             # Install additional dev dependencies for type checking
             uv pip install types-setuptools>=42.0.0
@@ -39,11 +39,11 @@ jobs:
       - run:
           name: Run Ruff (Code Formatting and Linting)
           command: |
-            uv run ruff check src tests hw2_inbox_package
+            uv run ruff check src tests hw2_inbox
       - run:
           name: Run Mypy (Static Type Checking)
           command: |
-            uv run mypy src hw2_inbox_package
+            uv run mypy src hw2_inbox
 
   test:
     executor: python-executor
@@ -55,7 +55,7 @@ jobs:
             mkdir -p test-results/pytest
             # Run tests and generate test report
             uv run pytest \
-              src tests hw2_inbox_package \
+              src tests hw2_inbox \
               --junitxml=test-results/pytest/junit.xml \
               --html=test-results/report.html \
               --self-contained-html
@@ -82,11 +82,11 @@ jobs:
             # Generate coverage reports
             uv run pytest \
               --cov=src \
-              --cov=hw2_inbox_package \
+              --cov=hw2_inbox \
               --cov-report=html \
               --cov-report=xml \
               --cov-report=term-missing \
-              hw2_inbox_package/tests
+              hw2_inbox/tests
       - store_artifacts:
           path: htmlcov
           destination: coverage-html-report

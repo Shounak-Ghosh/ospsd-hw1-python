@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "hw2_inbox_package"
+name = "hw2_inbox"
 version = "0.1.0"
 description = "Gmail client implementation"
 readme = "README.md"
@@ -12,10 +12,15 @@ dependencies = [
     "google-api-python-client>=2.166.0",
     "google-auth-httplib2>=0.2.0",
     "google-auth-oauthlib>=1.2.1",
+]
+
+[project.optional-dependencies]
+dev = [
     "pytest>=7.0.0",
+    "pytest-mock>=3.0.0",
+    "mypy>=1.0.0",
     "pytest-cov>=4.1.0",
     "pytest-html>=4.0.0",
-    "pytest-mock>=3.14.0",
 ]
 
 [tool.ruff.lint]
@@ -30,17 +35,17 @@ ignore = [
 ]
 
 [tool.setuptools]
-packages = ["hw2_inbox_package", "hw2_inbox_package.implementation", "hw2_inbox_package.interface"]
+packages = ["hw2_inbox", "hw2_inbox.implementation", "hw2_inbox.interface"]
 package-dir = {"" = "."}
 
 [tool.pytest.ini_options]
 addopts = "-v"
-testpaths = ["hw2_inbox_package/tests"]
+testpaths = ["hw2_inbox/tests"]
 python_files = ["test_*.py"]
-pythonpath = [".", "hw2_inbox_package"]
+pythonpath = [".", "hw2_inbox"]
 
 [tool.coverage.run]
-source = ["hw2_inbox_package"]
+source = ["hw2_inbox"]
 
 [tool.coverage.html]
 directory = "htmlcov"

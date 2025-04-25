@@ -36,9 +36,12 @@ This repository provides a foundation for Python-based projects with integrated 
     uv pip install pytest pytest-cov ruff mypy coverage
 
 ### Executing Tests
+0. Find the correct directory
+    cd hw2_inbox 
+
 1. Static analysis (using pytest, ruff, mypy, coverage)
-    uv run ruff check
-    uv run mypy src
+    uv run ruff check .
+    uv run mypy .
 
 2. Tests (using pytest) and Code Coverage:
    uv run pytest 
