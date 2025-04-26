@@ -7,7 +7,7 @@ class GmailClientInterface(ABC):
     This interface specifies core functionalities for email management including
     connection handling, authentication, and email operations.
     """
-    
+
     @abstractmethod
     def connect(self) -> bool:
         """
@@ -17,7 +17,7 @@ class GmailClientInterface(ABC):
             bool: True if the connection is successfully established, False otherwise.
         """
         pass
-        
+
     @abstractmethod
     def login(self, username: str, password: str) -> bool:
         """
@@ -31,7 +31,7 @@ class GmailClientInterface(ABC):
             bool: True if the login is successful, False otherwise.
         """
         pass
-        
+
     @abstractmethod
     def authenticate(self, username: str, access_token: str) -> bool:
         """
@@ -45,14 +45,14 @@ class GmailClientInterface(ABC):
             bool: True if the authentication is successful, False otherwise.
         """
         pass
-        
+
     @abstractmethod
     def logout(self) -> None:
         """
         Terminate the current Gmail session.
         """
         pass
-        
+
     @abstractmethod
     def get_emails(self, query: str) -> List[Dict]:
         """
@@ -66,7 +66,7 @@ class GmailClientInterface(ABC):
                        email_id, subject, sender, snippet, etc.
         """
         pass
-        
+
     @abstractmethod
     def get_email_content(self, email_id: str) -> Dict:
         """
@@ -80,7 +80,7 @@ class GmailClientInterface(ABC):
                  (e.g., headers, body, attachments).
         """
         pass
-        
+
     @abstractmethod
     def send_email(self, to: str, subject: str, body: str) -> bool:
         """

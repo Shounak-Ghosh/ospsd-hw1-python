@@ -143,7 +143,7 @@ class GmailClient(GmailClientInterface):
             message["to"] = to
             message["subject"] = subject
             raw_message = base64.urlsafe_b64encode(message.as_bytes()).decode("utf-8")
-            
+
             self.service.users().messages().send(
                 userId=self.user_id,
                 body={"raw": raw_message}
@@ -198,4 +198,4 @@ class GmailClient(GmailClientInterface):
             return False
         except Exception as e:
             print(f"[unsubscribe_from_email_sender] Error: {e}")
-            return False 
+            return False

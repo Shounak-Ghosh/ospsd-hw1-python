@@ -135,4 +135,4 @@ def test_unsubscribe_from_email_sender_success(mock_client):
     mock_client.unsubscribe_from_email_sender.return_value = True
     result = mock_client.unsubscribe_from_email_sender("1")
     assert result is True
-    mock_client.unsubscribe_from_email_sender.assert_called_once_with("1") 
+    mock_client.unsubscribe_from_email_sender.assert_called_once_with("1")

@@ -24,7 +24,7 @@ This repository provides a foundation for Python-based projects with integrated 
     cd project-name
 
 2. Install uv: \
-   MacOS and Linux:
+MacOS and Linux:
    ```bash
     curl -LsSf https://astral.sh/uv/install.sh | sh
     ```
@@ -32,21 +32,52 @@ This repository provides a foundation for Python-based projects with integrated 
    ```bash
     powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
    ```
-4. Install dependencies:
-    uv pip install pytest pytest-cov ruff mypy coverage
+3. Change directories into hw2_inbox (Our  `uv` python  package) 
+   ```
+   cd hw2_inbox
+   ```
+4. Create and activate virtual environment (`deactivate` for exiting)
+   ```
+   uv venv
+   source .venv/bin/activate  # macOS/Linux
+   .venv\Scripts\activate   # Windows
+   ```
+
+5. Install dependencies (development dependencies are optional):
+    ```
+    uv sync
+    uv pip install -e ".[dev]"
+    ```
 
 ### Executing Tests
-0. Find the correct directory
-    cd hw2_inbox 
-
-1. Static analysis (using pytest, ruff, mypy, coverage)
+Make sure that dev dependencies are installed. 
+1. Static Analysis Tests (Linter checks)
+    ```
     uv run ruff check .
     uv run mypy .
+    ```
+2. Unit Tests
+    ```
+    cd ..
+    uv run --active pytest \
+              hw2_inbox \
+              --junitxml=test-results/pytest/junit.xml \
+              --html=test-results/report.html \
+              --self-contained-html
 
-2. Tests (using pytest) and Code Coverage:
-   uv run pytest 
+    ```
+3. Unit test coverage reports
+    ```
+    uv run pytest \
+              --cov=hw2_inbox \  
+              --cov-report=html \
+              --cov-report=xml \         
+              --cov-report=term-missing  
 
-### CircleCI Link  
+
+    ```
+
+### CircleCI Links 
 [CircleCI Failure](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/54/workflows/f887c7a7-dc74-40d6-a244-98254e5c4162/jobs/128https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/25/workflows/a2f416d1-16af-4a28-b80a-1837987580da)
 
 [CircleCI Success](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/56/workflows/b36bd302-2794-4e2c-8059-c145990d9c61)
