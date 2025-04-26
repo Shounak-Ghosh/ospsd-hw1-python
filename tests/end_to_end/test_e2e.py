@@ -2,7 +2,7 @@ from src.calculator import add
 from src.logger.logger import OperationLogger
 from src.notifier.notifier import Notifier
 
-def test_end_to_end():
+def test_end_to_end() -> None:
     logger = OperationLogger()
     notifier = Notifier(threshold=10)
 
@@ -15,8 +15,8 @@ def test_end_to_end():
 
     # Assertions for E2E flow.
     history = logger.get_history()
-    
+
     assert len(history) == 1
     assert "7 + 8 = 15" in history[0]
-    
+
     assert alert_message == "Alert! Result 15 exceeds threshold 10"

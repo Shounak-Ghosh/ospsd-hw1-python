@@ -24,6 +24,22 @@ dev = [
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "E501",  # Ignore line length issues since no need to go over 100 characters
+    "ANN101", # Ignore missing type annotation for `self`
+    "D103",  # Ignore missing docstrings (test functions should be self-explanatory)
+    "D100",
+    "D101",
+    "D107",
+    "W293" # White spaces are used for indentation in doc strings
+]
+fixable = ["ALL"]  # Allow Ruff to auto-fix issues
+
 [tool.setuptools]
 packages = ["implementation", "interface"]
 package-dir = {"" = "."}
@@ -34,6 +50,7 @@ warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
 check_untyped_defs = true
+ignore_missing_imports = true  # Ignore missing imports (some external libraries may lack type hints)
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

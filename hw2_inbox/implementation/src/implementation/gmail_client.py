@@ -1,17 +1,17 @@
 """Gmail client implementation."""
 
-from typing import List, Dict, Any
-import os
 import base64
+import os
 from email.mime.text import MIMEText
-from interface import GmailClientInterface
-from .constants import GMAIL_SCOPES
+from typing import Any, dict, list
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+from interface import GmailClientInterface
 
+from .constants import GMAIL_SCOPES
 
 
 class GmailClient(GmailClientInterface):
@@ -33,7 +33,7 @@ class GmailClient(GmailClientInterface):
                     creds.refresh(Request())
                 else:
                     flow = InstalledAppFlow.from_client_secrets_file(
-                        "credentials.json", GMAIL_SCOPES
+                        "credentials.json", GMAIL_SCOPES,
                     )
                     creds = flow.run_local_server(port=0)
                 with open("token.json", "w") as token:
@@ -66,7 +66,7 @@ class GmailClient(GmailClientInterface):
             os.remove("token.json")
         self.service = None
 
-    def get_emails(self, query: str) -> List[Dict[str, Any]]:
+    def get_emails(self, query: str) -> list[dict[str, Any]]:
         """Get emails matching the query."""
         try:
             response = (
@@ -102,7 +102,7 @@ class GmailClient(GmailClientInterface):
             print(f"[get_emails] Error: {e}")
             return []
 
-    def get_email_content(self, email_id: str) -> Dict[str, Any]:
+    def get_email_content(self, email_id: str) -> dict[str, Any]:
         """Get content of a specific email."""
         try:
             msg = (
@@ -117,12 +117,12 @@ class GmailClient(GmailClientInterface):
                 for part in msg["payload"]["parts"]:
                     if part["mimeType"] == "text/plain":
                         body = base64.urlsafe_b64decode(
-                            part["body"]["data"]
+                            part["body"]["data"],
                         ).decode("utf-8")
                         break
             elif "body" in msg["payload"] and "data" in msg["payload"]["body"]:
                 body = base64.urlsafe_b64decode(
-                    msg["payload"]["body"]["data"]
+                    msg["payload"]["body"]["data"],
                 ).decode("utf-8")
 
             return {
@@ -130,7 +130,7 @@ class GmailClient(GmailClientInterface):
                 "subject": headers.get("Subject", ""),
                 "body": body,
                 "headers": headers,
-                "attachments": []
+                "attachments": [],
             }
         except Exception as e:
             print(f"[get_email_content] Error: {e}")
@@ -143,10 +143,9 @@ class GmailClient(GmailClientInterface):
             message["to"] = to
             message["subject"] = subject
             raw_message = base64.urlsafe_b64encode(message.as_bytes()).decode("utf-8")
-            
             self.service.users().messages().send(
                 userId=self.user_id,
-                body={"raw": raw_message}
+                body={"raw": raw_message},
             ).execute()
             return True
         except Exception as e:
@@ -159,7 +158,7 @@ class GmailClient(GmailClientInterface):
             self.service.users().messages().modify(
                 userId=self.user_id,
                 id=email_id,
-                body={"removeLabelIds": ["UNREAD"]}
+                body={"removeLabelIds": ["UNREAD"]},
             ).execute()
             return True
         except Exception as e:
@@ -190,12 +189,11 @@ class GmailClient(GmailClientInterface):
                 .execute()
             )
             headers = {h["name"]: h["value"] for h in msg["payload"]["headers"]}
-            list_unsubscribe = headers.get("List-Unsubscribe", "")
-            if list_unsubscribe:
-                # In a real implementation, you would follow the unsubscribe link
-                # This is a simplified version
-                return True
-            return False
+            list_unsubscribe = headers.get("list-Unsubscribe", "")
+            # In a real implementation, you would follow the unsubscribe link
+            # This is a simplified version
+            return list_unsubscribe
+
         except Exception as e:
             print(f"[unsubscribe_from_email_sender] Error: {e}")
-            return False 
+            return False

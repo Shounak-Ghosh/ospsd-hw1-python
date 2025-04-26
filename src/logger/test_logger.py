@@ -1,6 +1,6 @@
 from .logger import OperationLogger
 
-def test_log_operation():
+def test_log_operation() -> None:
     logger = OperationLogger()
     logger.log_operation("2 + 3 = 5")
     assert len(logger.get_history()) == 1

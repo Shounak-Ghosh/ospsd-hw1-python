@@ -1,5 +1,4 @@
-"""Logger Component API
-
+"""Logger Component API.
 This component provides operation logging functionality.
 """
 

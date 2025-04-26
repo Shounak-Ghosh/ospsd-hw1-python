@@ -1,4 +1,5 @@
-"""Notifier Component API
+"""
+Notifier Component API
 
 This component provides threshold-based notification functionality.
 """
