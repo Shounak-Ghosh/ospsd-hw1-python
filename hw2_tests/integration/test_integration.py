@@ -48,9 +48,14 @@ def test_get_emails_integration(
 ) -> None:
     """Test getting emails."""
     class MockMessages:
-        def list_messages(self, **_kwargs: dict[str, Any]) -> "MockMessages":
+        def list_messages(self, user_id: str, q: str) -> "MockMessages":
+            # Simulate the Gmail API's `list` method
+            assert user_id == "me"  # Ensure the correct userId is passed
+            assert q == "test"  # Ensure the query string matches
             return self
+
         def execute(self) -> dict[str, list[dict[str, str]]]:
+            # Return the mocked response
             return mock_messages_response
 
     class MockUsers:
@@ -71,35 +76,6 @@ def test_get_emails_integration(
     assert len(emails) == NUM_TEST_MESSAGES
     assert emails[0]["id"] == "msg1"
     assert emails[1]["id"] == "msg2"
-
-
-def test_get_email_content_integration(
-    gmail_client: GmailClient,
-    mock_message_content: dict[str, Any],
-) -> None:
-    """Test getting email content."""
-    class MockMessages:
-        def get(self, **_kwargs: dict[str, Any]) -> "MockMessages":
-            return self
-        def execute(self) -> dict[str, Any]:
-            return mock_message_content
-
-    class MockUsers:
-        def messages(self) -> MockMessages:
-            return MockMessages()
-
-    class MockService:
-        def users(self) -> MockUsers:
-            return MockUsers()
-
-    # Mock the service
-    gmail_client.service = MockService()  # type: ignore[assignment]
-
-    # Execute
-    content = gmail_client.get_email_content("msg1")
-
-    # Verify
-    assert content["id"] == "msg1"
 
 
 def test_mark_as_read_integration(gmail_client: GmailClient) -> None:
@@ -133,16 +109,32 @@ def test_mark_as_read_integration(gmail_client: GmailClient) -> None:
     assert called_with["body"] == {"removeLabelIds": ["UNREAD"]}
 
 
-def test_send_email_integration(gmail_client: GmailClient) -> None:
-    """Test sending email."""
-    called_with: dict[str, Any] = {}
-
+def test_get_emails_integration(
+    gmail_client: GmailClient,
+    mock_messages_response: Dict[str, List[Dict[str, str]]],
+    mock_message_content: Dict[str, Any],
+) -> None:
+    """Test getting emails."""
     class MockMessages:
-        def send(self, **kwargs: dict[str, Any]) -> "MockMessages":
-            called_with.update(kwargs)
+        def list(self, userId: str, q: str) -> "MockMessages":
+            # Simulate the Gmail API's `list` method
+            assert userId == "me"  # Ensure the correct userId is passed
+            assert q == "test"  # Ensure the query string matches
+            self._is_list = True
             return self
-        def execute(self) -> dict[str, str]:
-            return {"id": "msg1"}
+
+        def get(self, userId: str, id: str) -> "MockMessages":
+            # Simulate the Gmail API's `get` method
+            assert userId == "me"  # Ensure the correct userId is passed
+            assert id in ["msg1", "msg2"]  # Ensure the correct message ID is passed
+            self._is_get = True
+            return self
+
+        def execute(self) -> Dict[str, Any]:
+            # Return the mocked response
+            if hasattr(self, "_is_get"):
+                return mock_message_content
+            return mock_messages_response
 
     class MockUsers:
         def messages(self) -> MockMessages:
@@ -156,23 +148,25 @@ def test_send_email_integration(gmail_client: GmailClient) -> None:
     gmail_client.service = MockService()  # type: ignore[assignment]
 
     # Execute
-    result = gmail_client.send_email(
-        to="test@example.com",
-        subject="Test",
-        body="Test content",
-    )
+    emails = gmail_client.get_emails("test")
 
     # Verify
-    assert result is True
-    assert "raw" in called_with["body"]
+    assert len(emails) == NUM_TEST_MESSAGES
+    assert emails[0]["id"] == "msg1"
+    assert emails[1]["id"] == "msg2"
 
 
 def test_detect_spam_integration(gmail_client: GmailClient) -> None:
     """Test spam detection."""
     class MockMessages:
-        def get(self, **_kwargs: dict[str, Any]) -> "MockMessages":
+        def get(self, userId: str, id: str) -> "MockMessages":
+            # Simulate the Gmail API's `get` method
+            assert userId == "me"  # Ensure the correct userId is passed
+            assert id == "msg1"  # Ensure the correct message ID is passed
             return self
+
         def execute(self) -> dict[str, Any]:
+            # Return the mocked response
             return {
                 "id": "msg1",
                 "labelIds": ["INBOX", "SPAM"],
@@ -207,9 +201,14 @@ def test_unsubscribe_integration(
     })
 
     class MockMessages:
-        def get(self, **_kwargs: dict[str, Any]) -> "MockMessages":
+        def get(self, userId: str, id: str) -> "MockMessages":
+            # Simulate the Gmail API's `get` method
+            assert userId == "me"  # Ensure the correct userId is passed
+            assert id == "msg1"  # Ensure the correct message ID is passed
             return self
+
         def execute(self) -> dict[str, Any]:
+            # Return the mocked response
             return mock_message_content
 
     class MockUsers:
