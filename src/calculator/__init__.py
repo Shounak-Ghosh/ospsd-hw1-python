@@ -1,12 +1,13 @@
 """Calculator Component API.
+
 This component provides basic arithmetic operations.
 """
 
-from .calculator import add, subtract, multiply, divide
+from .calculator import add, divide, multiply, subtract
 
 __all__ = [
-    'add',
-    'subtract',
-    'multiply',
-    'divide'
+    "add",
+    "divide",
+    "multiply",
+    "subtract",
 ]
