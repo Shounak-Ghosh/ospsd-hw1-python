@@ -42,42 +42,6 @@ def gmail_client() -> GmailClient:
     return GmailClient()
 
 
-def test_get_emails_integration(
-    gmail_client: GmailClient,
-    mock_messages_response: dict[str, list[dict[str, str]]],
-) -> None:
-    """Test getting emails."""
-    class MockMessages:
-        def list_messages(self, user_id: str, q: str) -> "MockMessages":
-            # Simulate the Gmail API's `list` method
-            assert user_id == "me"  # Ensure the correct userId is passed
-            assert q == "test"  # Ensure the query string matches
-            return self
-
-        def execute(self) -> dict[str, list[dict[str, str]]]:
-            # Return the mocked response
-            return mock_messages_response
-
-    class MockUsers:
-        def messages(self) -> MockMessages:
-            return MockMessages()
-
-    class MockService:
-        def users(self) -> MockUsers:
-            return MockUsers()
-
-    # Mock the service
-    gmail_client.service = MockService()  # type: ignore[assignment]
-
-    # Execute
-    emails = gmail_client.get_emails("test")
-
-    # Verify
-    assert len(emails) == NUM_TEST_MESSAGES
-    assert emails[0]["id"] == "msg1"
-    assert emails[1]["id"] == "msg2"
-
-
 def test_mark_as_read_integration(gmail_client: GmailClient) -> None:
     """Test marking email as read."""
     called_with: dict[str, Any] = {}
@@ -111,8 +75,8 @@ def test_mark_as_read_integration(gmail_client: GmailClient) -> None:
 
 def test_get_emails_integration(
     gmail_client: GmailClient,
-    mock_messages_response: Dict[str, List[Dict[str, str]]],
-    mock_message_content: Dict[str, Any],
+    mock_messages_response: dict[str, list[dict[str, str]]],
+    mock_message_content: dict[str, Any],
 ) -> None:
     """Test getting emails."""
     class MockMessages:
@@ -130,7 +94,7 @@ def test_get_emails_integration(
             self._is_get = True
             return self
 
-        def execute(self) -> Dict[str, Any]:
+        def execute(self) -> dict[str, Any]:
             # Return the mocked response
             if hasattr(self, "_is_get"):
                 return mock_message_content
