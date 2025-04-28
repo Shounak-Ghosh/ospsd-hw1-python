@@ -24,15 +24,18 @@ dev = [
 ]
 
 [tool.ruff.lint]
-select = [
-    "E",  # pycodestyle
-    "F",  # pyflakes
-    "W",  # warnings
-    "ANN",  # flake8-annotations
-]
+select = ["ALL"]
 ignore = [
-    "ANN401",  # Dynamically typed expressions are disallowed
+    "E501",  # Ignore line length issues since no need to go over 100 characters
+    "W293", # White spaces are used for indentation in doc strings
+    "S101", # Use of assertion should be okay in test files
+    "D203", #incompatible with D211 
+    "D213", #incompatible with D212
+    "F811", # Allow function redefinition in tests
+    "N803", # Allow uppercase parameter names to match Gmail API
+    "A002", # Allow shadowing of built-in names in parameters
 ]
+fixable = ["ALL"]  # Allow Ruff to auto-fix issues
 
 [tool.setuptools]
 packages = ["hw2_inbox", "hw2_inbox.implementation", "hw2_inbox.interface"]
@@ -40,7 +43,7 @@ package-dir = {"" = "."}
 
 [tool.pytest.ini_options]
 addopts = "-v"
-testpaths = ["hw2_inbox/tests"]
+testpaths = ["hw2_inbox/tests"]  
 python_files = ["test_*.py"]
 pythonpath = [".", "hw2_inbox"]
 

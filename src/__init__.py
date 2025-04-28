@@ -1,5 +1,11 @@
+"""Main package initialization.
+
+This module provides access to calculator operations,
+logging functionality, and notification services.
+"""
+
 # Using calculator
-from .calculator import add, subtract, multiply, divide
+from .calculator import add, divide, multiply, subtract
 
 # Using logger
 from .logger import OperationLogger
@@ -8,7 +14,10 @@ from .logger import OperationLogger
 from .notifier import Notifier
 
 __all__ = [
-    'add', 'subtract', 'multiply', 'divide',
-    'OperationLogger',
-    'Notifier'
+    "Notifier",
+    "OperationLogger",
+    "add",
+    "divide",
+    "multiply",
+    "subtract",
 ]

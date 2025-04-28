@@ -1,13 +1,30 @@
-from . import add, subtract, multiply
+"""Test module for calculator operations."""
 
-def test_add():
-    assert add(2, 3) == 5
-    assert add(-1, 1) == 0
+from . import add, multiply, subtract
 
-def test_subtract():
-    assert subtract(5, 3) == 2
-    assert subtract(0, 1) == -1
+# Test constants
+FIRST_NUMBER = 2
+SECOND_NUMBER = 3
+EXPECTED_SUM = 5
+EXPECTED_DIFFERENCE = 2
+EXPECTED_PRODUCT = 6
+NEGATIVE_ONE = -1
+ZERO = 0
+ONE = 1
+FIVE = 5
+NEGATIVE_FIVE = -5
 
-def test_multiply():
-    assert multiply(2, 3) == 6
-    assert multiply(-1, 5) == -5
+def test_add() -> None:
+    """Test addition with positive and negative numbers."""
+    assert add(FIRST_NUMBER, SECOND_NUMBER) == EXPECTED_SUM
+    assert add(NEGATIVE_ONE, ONE) == ZERO
+
+def test_subtract() -> None:
+    """Test subtraction with various number combinations."""
+    assert subtract(FIVE, SECOND_NUMBER) == EXPECTED_DIFFERENCE
+    assert subtract(ZERO, ONE) == NEGATIVE_ONE
+
+def test_multiply() -> None:
+    """Test multiplication with positive and negative numbers."""
+    assert multiply(FIRST_NUMBER, SECOND_NUMBER) == EXPECTED_PRODUCT
+    assert multiply(NEGATIVE_ONE, FIVE) == NEGATIVE_FIVE

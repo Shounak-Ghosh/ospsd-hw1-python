@@ -7,6 +7,7 @@ requires-python = ">=3.9"
 
 dependencies = [
     "google-api-python-client>=2.166.0",
+    "google-auth>=2.28.0",
     "google-auth-httplib2>=0.2.0",
     "google-auth-oauthlib>=1.2.1",
 ]
@@ -24,6 +25,23 @@ dev = [
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "E501",  # Ignore line length issues since no need to go over 100 characters
+    "W293", # White spaces are used for indentation in doc strings
+    "S101", # Use of assertion should be okay in test files
+    "D203", #incompatible with D211 
+    "D213", #incompatible with D212
+]
+fixable = ["ALL"]  # Allow Ruff to auto-fix issues
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN401"]  # Allow Any in test files for mocking
+
 [tool.setuptools]
 packages = ["implementation", "interface"]
 package-dir = {"" = "."}
@@ -34,6 +52,20 @@ warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
 check_untyped_defs = true
+ignore_missing_imports = true  # Ignore missing imports (some external libraries may lack type hints)
+mypy_path = ["implementation/src", "interface/src"]
+namespace_packages = true
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = [
+    "google.*",
+    "google_auth_oauthlib.*",
+    "googleapiclient.*",
+    "implementation.*",
+    "interface.*"
+]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

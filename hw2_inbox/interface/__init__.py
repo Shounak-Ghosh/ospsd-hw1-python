@@ -2,4 +2,4 @@
 
 from .src.interface import GmailClientInterface
 
-__all__ = ['GmailClientInterface']
+__all__ = ["GmailClientInterface"]

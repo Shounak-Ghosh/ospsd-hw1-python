@@ -1,14 +1,26 @@
+"""Integration tests for logger and notifier components."""
+
 from src.logger.logger import OperationLogger
 from src.notifier.notifier import Notifier
 
-def test_logger_notifier_integration():
+
+def test_logger_notifier_integration() -> None:
+    """Test integration between logger and notifier.
+    
+    Tests:
+        - Logging an operation
+        - Checking notification threshold
+        - Verifying notification message
+    """
     logger = OperationLogger()
     notifier = Notifier(threshold=10)
-
-    result = 15
-    logger.log_operation(f"Result is {result}")
     
-    alert_message = notifier.send_notification(result)
+    # Log an operation and check notification
+    logger.log_operation("15 + 20 = 35")
+    notification = notifier.send_notification(35)
     
-    assert "Result is 15" in logger.get_history()[0]
-    assert alert_message == "Alert! Result 15 exceeds threshold 10"
+    # Verify both logging and notification worked
+    history = logger.get_history()
+    assert len(history) == 1
+    assert "15 + 20 = 35" in history[0]
+    assert notification == "Alert! Result 35 exceeds threshold 10"
