@@ -58,7 +58,7 @@ Make sure that dev dependencies are installed.
     ```
 2. Unit Tests
     ```
-    cd ..
+    # ensure that you are outside the hw2_inbox package (cd ..)
     uv run --active pytest \
               hw2_inbox \
               --junitxml=test-results/pytest/junit.xml \
@@ -68,6 +68,7 @@ Make sure that dev dependencies are installed.
     ```
 3. Unit test coverage reports
     ```
+    # ensure that you are outside the hw2_inbox package
     uv run pytest \
               --cov=hw2_inbox \  
               --cov-report=html \
