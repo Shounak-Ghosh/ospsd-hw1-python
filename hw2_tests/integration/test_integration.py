@@ -4,7 +4,7 @@ from typing import Any
 
 import pytest
 
-from hw2_inbox.implementation.src.implementation.gmail_client import GmailClient
+from src.hw2_inbox.implementation.src.implementation.gmail_client import GmailClient
 
 # Constants
 NUM_TEST_MESSAGES = 2

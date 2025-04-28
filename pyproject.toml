@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "hw2_inbox"
+name = "ospsd-hw4"
 version = "0.1.0"
-description = "Gmail client implementation"
+description = "Gmail client with AI integration"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
@@ -38,17 +38,17 @@ ignore = [
 fixable = ["ALL"]  # Allow Ruff to auto-fix issues
 
 [tool.setuptools]
-packages = ["hw2_inbox", "hw2_inbox.implementation", "hw2_inbox.interface"]
+packages = ["src", "src.components", "src.components.hw2_inbox", "src.components.ai_conversation_client"]
 package-dir = {"" = "."}
 
 [tool.pytest.ini_options]
 addopts = "-v"
-testpaths = ["hw2_inbox/tests"]  
+testpaths = ["src/components"]  
 python_files = ["test_*.py"]
-pythonpath = [".", "hw2_inbox"]
+pythonpath = ["."]
 
 [tool.coverage.run]
-source = ["hw2_inbox"]
+source = ["src/components"]
 
 [tool.coverage.html]
 directory = "htmlcov"

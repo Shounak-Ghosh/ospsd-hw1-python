@@ -18,10 +18,15 @@ This repository provides a foundation for Python-based projects with integrated 
 - GitHub repository
 
 ### Setup/Installation
-1. Clone this repository:
+1. Clone this repository with submodules:
     ```bash
-    git clone https://github.com/Shounak-Ghosh/ospsd-hw1-python.git
+    # Option 1: Clone with submodules in one step
+    git clone --recurse-submodules https://github.com/Shounak-Ghosh/ospsd-hw1-python.git
     cd project-name
+
+    # Option 2: If you already cloned without submodules
+    git submodule update --init --recursive
+    ```
 
 2. Install uv: \
 MacOS and Linux:
