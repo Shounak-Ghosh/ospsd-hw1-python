@@ -1,4 +1,4 @@
-"""Calculator Component API
+"""Calculator Component API.
 
 This component provides basic arithmetic operations.
 """
