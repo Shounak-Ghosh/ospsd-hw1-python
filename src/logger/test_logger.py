@@ -1,7 +1,12 @@
+"""Test module for logger operations."""
+
 from .logger import OperationLogger
 
-def test_log_operation():
+
+def test_log_operation() -> None:
+    """Test logging an operation."""
     logger = OperationLogger()
     logger.log_operation("2 + 3 = 5")
-    assert len(logger.get_history()) == 1
-    assert "2 + 3 = 5" in logger.get_history()[0]
+    history = logger.get_history()
+    assert len(history) == 1
+    assert "2 + 3 = 5" in history[0]

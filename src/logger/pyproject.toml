@@ -2,13 +2,7 @@
 name = "logger"
 version = "0.1.0"
 description = "A simple logger."
-dependencies = [
-    "uv",  
-    "pytest",  
-    "coverage",
-    "ruff",
-    "mypy"
-]
+
 requires-python = ">=3.11"
 
 [project.optional-dependencies]
@@ -17,10 +11,7 @@ dev = [
 ]
 
 
-[tool.ruff.lint]
-ignore = ["D203", "D213"] 
-select = ["D", "E", "F", "ANN", "UP", "TRY", "EM"]
-exclude = ["test_*.py"]
+
 
 
 [tool.mypy]

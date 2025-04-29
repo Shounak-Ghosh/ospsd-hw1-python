@@ -1,14 +1,28 @@
-from src.logger.logger import OperationLogger
-from src.notifier.notifier import Notifier
+"""Integration test module for calculator and notifier components."""
 
-def test_logger_notifier_integration():
+from src.calculator import add
+from src.logger import OperationLogger
+from src.notifier import Notifier
+
+# Test constants
+TEST_THRESHOLD = 10
+TEST_VALUE_A = 7
+TEST_VALUE_B = 8
+
+def test_logger_notifier_integration() -> None:
+    """Test integration between calculator, logger, and notifier components."""
     logger = OperationLogger()
-    notifier = Notifier(threshold=10)
-
-    result = 15
-    logger.log_operation(f"Result is {result}")
+    notifier = Notifier(threshold=TEST_THRESHOLD)
     
-    alert_message = notifier.send_notification(result)
+    # Perform calculation
+    result = add(TEST_VALUE_A, TEST_VALUE_B)
+    logger.log_operation(f"{TEST_VALUE_A} + {TEST_VALUE_B} = {result}")
     
-    assert "Result is 15" in logger.get_history()[0]
-    assert alert_message == "Alert! Result 15 exceeds threshold 10"
+    # Check notification
+    notification = notifier.send_notification(result)
+    
+    # Verify results
+    history = logger.get_history()
+    assert len(history) == 1
+    assert f"{TEST_VALUE_A} + {TEST_VALUE_B} = {result}" in history[0]
+    assert notification == f"Alert! Result {result} exceeds threshold {TEST_THRESHOLD}"

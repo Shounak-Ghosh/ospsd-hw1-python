@@ -1,6 +1,13 @@
+"""Test module for notifier operations."""
+
 from .notifier import Notifier
 
-def test_send_notification():
-    notifier = Notifier(threshold=10)
-    assert notifier.send_notification(15) == "Alert! Result 15 exceeds threshold 10"
+# Test constants
+TEST_THRESHOLD = 10
+TEST_VALUE = 15
+
+def test_send_notification() -> None:
+    """Test notification when threshold is exceeded."""
+    notifier = Notifier(threshold=TEST_THRESHOLD)
+    assert notifier.send_notification(TEST_VALUE) == f"Alert! Result {TEST_VALUE} exceeds threshold {TEST_THRESHOLD}"
     assert notifier.send_notification(5) == "No alert needed"

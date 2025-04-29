@@ -32,11 +32,7 @@ MacOS and Linux:
    ```bash
     powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
    ```
-3. Change directories into hw2_inbox (Our  `uv` python  package) 
-   ```
-   cd hw2_inbox
-   ```
-4. Create and activate virtual environment (`deactivate` for exiting)
+3. Create and activate virtual environment (`deactivate` for exiting)
    ```
    uv venv
    source .venv/bin/activate  # macOS/Linux
@@ -45,8 +41,7 @@ MacOS and Linux:
 
 5. Install dependencies (development dependencies are optional):
     ```
-    uv sync
-    uv pip install -e ".[dev]"
+    uv sync --extra dev
     ```
 
 ### Executing Tests
@@ -58,9 +53,8 @@ Make sure that dev dependencies are installed.
     ```
 2. Unit Tests
     ```
-    cd ..
     uv run --active pytest \
-              hw2_inbox \
+              src \
               --junitxml=test-results/pytest/junit.xml \
               --html=test-results/report.html \
               --self-contained-html
@@ -68,13 +62,11 @@ Make sure that dev dependencies are installed.
     ```
 3. Unit test coverage reports
     ```
-    uv run pytest \
-              --cov=hw2_inbox \  
-              --cov-report=html \
-              --cov-report=xml \         
-              --cov-report=term-missing  
-
-
+        uv run -- pytest \
+        --cov=src \
+        --cov-report=html \
+        --cov-report=xml \
+        --cov-report=term-missing
     ```
 
 ### CircleCI Links 
