@@ -10,7 +10,7 @@ from hw2_inbox_impl import gmail_client
 
 
 @pytest.fixture
-def mock_gmail_api(mocker: MockerFixture) -> Any:  # noqa: ANN401
+def mock_gmail_api(mocker: MockerFixture) -> Any: 
     """Create a mock Gmail API service."""
     return mocker.Mock()
 
