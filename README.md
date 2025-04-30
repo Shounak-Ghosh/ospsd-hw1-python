@@ -8,8 +8,17 @@ This repository provides a foundation for Python-based projects with integrated 
 - Static Analysis: Uses 'ruff' for code formatting and linting and 'mypy' for static type checking to ensure code quality
 - Code Formatting: Maintains consistent code style
 - Testing Framework: Uses 'pytest' for unit, integration, and end-to-end tests
-- Components: 'Calculator', 'Logger', and 'Notifier', each with corresponding tests and documentation
+- Components: 
+  - Gmail Client: A Python implementation of a Gmail client with OAuth2 authentication
+  - Email Management: Features for sending, receiving, and managing emails
+  - Spam Detection: Basic spam detection functionality
+  - Unsubscribe Support: Ability to unsubscribe from email senders
 - Code Coverage: Generates code coverage reports
+
+## Project Structure
+- `hw2_inbox/`: Root package containing the Gmail client interface
+- `hw2_inbox_impl/`: Implementation of the Gmail client
+- `hw2_tests/`: Test suite for the Gmail client implementation
 
 ## Getting Started
 ### Requirements
@@ -32,11 +41,7 @@ MacOS and Linux:
    ```bash
     powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
    ```
-3. Change directories into hw2_inbox (Our  `uv` python  package) 
-   ```
-   cd hw2_inbox
-   ```
-4. Create and activate virtual environment (`deactivate` for exiting)
+3. Create and activate virtual environment (`deactivate` for exiting)
    ```
    uv venv
    source .venv/bin/activate  # macOS/Linux
@@ -45,8 +50,7 @@ MacOS and Linux:
 
 5. Install dependencies (development dependencies are optional):
     ```
-    uv sync
-    uv pip install -e ".[dev]"
+    uv sync && uv sync --extra dev
     ```
 
 ### Executing Tests
@@ -59,21 +63,13 @@ Make sure that dev dependencies are installed.
 2. Unit Tests
     ```
     # ensure that you are outside the hw2_inbox package (cd ..)
-    uv run --active pytest \
-              hw2_inbox \
-              --junitxml=test-results/pytest/junit.xml \
-              --html=test-results/report.html \
-              --self-contained-html
+    uv run pytest hw2_tests/src/hw2_tests/test_hw2_inbox.py --junitxml=test-results/pytest/junit.xml --html=test-results/report.html --self-contained-html
 
     ```
 3. Unit test coverage reports
     ```
     # ensure that you are outside the hw2_inbox package
-    uv run pytest \
-              --cov=hw2_inbox \  
-              --cov-report=html \
-              --cov-report=xml \         
-              --cov-report=term-missing  
+    uv run pytest --cov=hw2_inbox_impl --cov-report=html --cov-report=xml --cov-report=term-missing
 
 
     ```
