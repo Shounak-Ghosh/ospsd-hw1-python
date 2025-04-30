@@ -10,8 +10,11 @@ readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
     "google-api-python-client>=2.166.0",
+    "google-auth>=2.28.0",
     "google-auth-httplib2>=0.2.0",
     "google-auth-oauthlib>=1.2.1",
+    "hw2_inbox_impl @ file:///Users/soohyeuk/Documents/OSPSD/re-do/ospsd-hw1-python/hw2_inbox_impl",
+    "hw2_inbox_api @ file:///Users/soohyeuk/Documents/OSPSD/re-do/ospsd-hw1-python/hw2_inbox_api"
 ]
 
 [project.optional-dependencies]
@@ -21,7 +24,15 @@ dev = [
     "mypy>=1.0.0",
     "pytest-cov>=4.1.0",
     "pytest-html>=4.0.0",
+    "ruff"
 ]
+
+[tool.uv.workspace]
+members = ["hw2_inbox_api", "hw2_inbox_impl"]
+
+[tool.uv.sources]
+hw2-inbox-api = { workspace = true }
+hw2-inbox-impl = { workspace = true }
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -38,17 +49,17 @@ ignore = [
 fixable = ["ALL"]  # Allow Ruff to auto-fix issues
 
 [tool.setuptools]
-packages = ["hw2_inbox", "hw2_inbox.implementation", "hw2_inbox.interface"]
-package-dir = {"" = "."}
+packages = ["hw2_inbox_impl", "hw2_inbox_api"]
+package-dir = {"hw2_inbox_impl" = "hw2_inbox_impl/src/hw2_inbox_impl", "hw2_inbox_api" = "hw2_inbox_api/src/hw2_inbox_api"}
 
 [tool.pytest.ini_options]
 addopts = "-v"
-testpaths = ["hw2_inbox/tests"]  
+testpaths = ["hw2_tests"]  
 python_files = ["test_*.py"]
-pythonpath = [".", "hw2_inbox"]
+pythonpath = ["."]
 
 [tool.coverage.run]
-source = ["hw2_inbox"]
+source = ["hw2_inbox_impl", "hw2_inbox_api"]
 
 [tool.coverage.html]
 directory = "htmlcov"
