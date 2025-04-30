@@ -17,8 +17,8 @@ This repository provides a foundation for Python-based projects with integrated 
 
 ## Project Structure
 - `hw2_inbox/`: Root package containing the Gmail client interface
-- `hw2_inbox_impl/`: Implementation of the Gmail client
-- `hw2_tests/`: Test suite for the Gmail client implementation
+- `hw2_inbox_api/`: Interface of the Gmail client
+- `hw2_tests/`: Test suite for the Gmail client interface
 
 ## Getting Started
 ### Requirements
@@ -75,6 +75,6 @@ Make sure that dev dependencies are installed.
     ```
 
 ### CircleCI Links 
-[CircleCI Failure](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/86/workflows/d9bc6b5a-6639-4a45-ae4c-d2908bbd4e7b)
+[CircleCI Failure](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/75/workflows/49b3808e-755c-42c1-9b46-115e74ec8d32)
 
-[CircleCI Success](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/85/workflows/62d8f317-e25b-460e-a315-f0f368bd42f0)
+[CircleCI Success](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/89/workflows/ff3cfad3-c540-4aed-b46a-e2045f3e2f52)

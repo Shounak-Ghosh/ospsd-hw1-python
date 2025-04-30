@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "hw2_inbox"
 version = "0.1.0"
-description = "Gmail client implementation"
+description = "Gmail client interface"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
@@ -13,8 +13,8 @@ dependencies = [
     "google-auth>=2.28.0",
     "google-auth-httplib2>=0.2.0",
     "google-auth-oauthlib>=1.2.1",
-    "hw2_inbox_impl @ file:///Users/soohyeuk/Documents/OSPSD/re-do/ospsd-hw1-python/hw2_inbox_impl",
-    "hw2_inbox_api @ file:///Users/soohyeuk/Documents/OSPSD/re-do/ospsd-hw1-python/hw2_inbox_api"
+    "hw2_inbox_impl",
+    "hw2_inbox_api"
 ]
 
 [project.optional-dependencies]
