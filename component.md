@@ -16,21 +16,9 @@ This section provides an overview of the components in the project. Each compone
 │   │   └── hw2_inbox_api/
 │   │       ├── __init__.py
 │   ├── pyproject.toml
-├── hw2_inbox_impl/
-│   ├── src/
-│   │   └── hw2_inbox_impl/
-│   │       ├── __init__.py
-│   │       ├── constants.py
-│   │       ├── gmail_client.py
-│   │       ├── py.typed
-│   ├── pyproject.toml
 ├── hw2_tests/
-│   ├── src/
-│   │   └── hw2_tests/
-│   │       ├── __init__.py
-│   │       ├── test_hw2_inbox.py
-│   ├── pyproject.toml
-│   └── uv.lock
+│   ├── __init__.py
+│   |── test_hw2_inbox.py
 ├── test-results/
 │   ├── pytest/
 │   │   └── junit.xml

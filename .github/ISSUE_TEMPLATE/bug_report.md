@@ -11,7 +11,6 @@ A clear and concise description of what the bug is.
 
 **Component**
 - [ ] Gmail Client Interface
-- [ ] Gmail Client Implementation
 - [ ] Gmail Client Tests
 - [ ] OAuth2 Authentication
 - [ ] Email Operations
