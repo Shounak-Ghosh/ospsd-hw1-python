@@ -8,6 +8,7 @@ assignees: ''
 
 ## Target Component
 - [ ] Gmail Client Interface (New Methods/Properties)
+- [ ] Gmail Client Implementation (New Features)
 - [ ] OAuth2 Authentication (Enhanced Flow)
 - [ ] Email Operations (New Capabilities)
 - [ ] Spam Detection (Improved Algorithms)

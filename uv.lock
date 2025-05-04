@@ -10,6 +10,7 @@ resolution-markers = [
 members = [
     "hw2-inbox",
     "hw2-inbox-api",
+    "hw2-inbox-impl",
 ]
 
 [[package]]
@@ -303,6 +304,7 @@ dependencies = [
     { name = "google-auth-httplib2" },
     { name = "google-auth-oauthlib" },
     { name = "hw2-inbox-api" },
+    { name = "hw2-inbox-impl" },
 ]
 
 [package.optional-dependencies]
@@ -322,6 +324,7 @@ requires-dist = [
     { name = "google-auth-httplib2", specifier = ">=0.2.0" },
     { name = "google-auth-oauthlib", specifier = ">=1.2.1" },
     { name = "hw2-inbox-api", editable = "hw2_inbox_api" },
+    { name = "hw2-inbox-impl", editable = "hw2_inbox_impl" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.0.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.0.0" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.1.0" },
@@ -335,6 +338,11 @@ provides-extras = ["dev"]
 name = "hw2-inbox-api"
 version = "0.1.0"
 source = { editable = "hw2_inbox_api" }
+
+[[package]]
+name = "hw2-inbox-impl"
+version = "0.1.0"
+source = { editable = "hw2_inbox_impl" }
 
 [[package]]
 name = "idna"
