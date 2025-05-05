@@ -1,17 +1,21 @@
 [build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "integration"
 version = "0.1.0"
-description = "integration of ai"
-readme = "README.md"
-requires-python = ">=3.9"
+description = "Integration module for spam detection"
+dependencies = [
+    "python-dotenv>=1.0.0",
+]
 
 [tool.uv.sources]
 hw2_inbox_impl = { workspace = true }
 ai_conversation_client = {workspace = true}
 
 [tool.pytest.ini_options]
-pythonpath = ["."] 
+pythonpath = ["."]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/integration"] 

@@ -377,6 +377,22 @@ source = { editable = "hw2_inbox_impl" }
 name = "hw2-tests"
 version = "0.1.0"
 source = { editable = "hw2_tests" }
+dependencies = [
+    { name = "google-api-python-client" },
+    { name = "google-auth-httplib2" },
+    { name = "google-auth-oauthlib" },
+    { name = "pytest" },
+    { name = "python-dotenv" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "google-api-python-client", specifier = ">=2.0.0" },
+    { name = "google-auth-httplib2", specifier = ">=0.1.0" },
+    { name = "google-auth-oauthlib", specifier = ">=1.0.0" },
+    { name = "pytest", specifier = ">=8.0.0" },
+    { name = "python-dotenv", specifier = ">=1.0.0" },
+]
 
 [[package]]
 name = "idna"
@@ -400,6 +416,12 @@ wheels = [
 name = "integration"
 version = "0.1.0"
 source = { editable = "integration" }
+dependencies = [
+    { name = "python-dotenv" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "python-dotenv", specifier = ">=1.0.0" }]
 
 [[package]]
 name = "jinja2"

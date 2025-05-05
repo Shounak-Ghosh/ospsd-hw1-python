@@ -1,17 +1,30 @@
 [build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "hw2_tests"
 version = "0.1.0"
-description = "Tests hw2_inbox impl"
+description = "Tests for homework 2"
 readme = "README.md"
 requires-python = ">=3.9"
+dependencies = [
+    "pytest>=8.0.0",
+    "python-dotenv>=1.0.0",
+    "google-auth-oauthlib>=1.0.0",
+    "google-auth-httplib2>=0.1.0",
+    "google-api-python-client>=2.0.0",
+]
 
 [tool.uv.sources]
 hw2_inbox_impl = { workspace = true }
 hw2_inbox_api = {workspace = true}
 integration = {workspace = true}
 ai_conversation_client = {workspace = true}
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hw2_tests"]
 
