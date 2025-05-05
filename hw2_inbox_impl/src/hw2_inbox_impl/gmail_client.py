@@ -57,10 +57,9 @@ class GmailClient(GmailClientInterface):
                 if creds and creds.expired and creds.refresh_token:
                     creds.refresh(Request())
                 else:
-                    flow = InstalledAppFlow.from_client_secrets_file(
-                        "credentials.json", GMAIL_SCOPES,
-                    )
-                    creds = flow.run_local_server(port=0)
+                    flow = InstalledAppFlow.from_client_secrets_file("credentials.json", GMAIL_SCOPES)
+                    creds = flow.run_local_server(port=8000, access_type="offline", prompt="consent")
+
                 token_path.write_text(creds.to_json())
 
             self.service = build("gmail", "v1", credentials=creds)
