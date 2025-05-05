@@ -8,7 +8,7 @@ import csv
 from typing import Any, List
 
 from hw2_inbox_impl import gmail_client
-from ai_conversation_client.src.components.ai_conversation_client import api
+from ai_conversation_client import api
 
 
 class SpamDetector:

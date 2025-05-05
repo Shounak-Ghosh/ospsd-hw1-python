@@ -13,6 +13,8 @@ dependencies = [
     "google-auth>=2.28.0",
     "google-auth-httplib2>=0.2.0",
     "google-auth-oauthlib>=1.2.1",
+    "requests>=2.28.0",
+    "python-dotenv>=1.0.0",
 ]
 
 [project.optional-dependencies]
@@ -44,7 +46,7 @@ fixable = ["ALL"]  # Allow Ruff to auto-fix issues
 
 [tool.setuptools]
 packages = ["hw2_inbox_impl", "hw2_inbox_api", "integration", "ai_conversation_client"]
-package-dir = {"hw2_inbox_impl" = "hw2_inbox_impl/src/hw2_inbox_impl", "hw2_inbox_api" = "hw2_inbox_api/src/hw2_inbox_api", "integration" = "integration/src/integration","ai_conversation_client" = "ai_conversation_client/src/components/ai_conversation_client"}
+package-dir = {"hw2_inbox_impl" = "hw2_inbox_impl/src/hw2_inbox_impl", "hw2_inbox_api" = "hw2_inbox_api/src/hw2_inbox_api", "integration" = "integration/src/integration", "ai_conversation_client" = "ai_conversation_client/src/ai_conversation_client"}
 
 [tool.pytest.ini_options]
 addopts = "-v"
@@ -52,7 +54,9 @@ testpaths = ["hw2_tests"]
 python_files = ["test_*.py"]
 pythonpath = [
     "hw2_inbox_api/src",
-    "hw2_inbox_impl/src"
+    "hw2_inbox_impl/src",
+    "ai_conversation_client/src",
+    "integration/src"
 ]
 
 [tool.coverage.run]
@@ -65,7 +69,7 @@ directory = "htmlcov"
 output = "coverage.xml"
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.9"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true

@@ -8,7 +8,7 @@ import os
 import sys
 from dotenv import load_dotenv
 
-from src.components.ai_conversation_client.factory import AIClientFactory
+from .factory import AIClientFactory
 
 
 def main() -> None:

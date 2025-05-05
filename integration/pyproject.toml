@@ -12,3 +12,6 @@ requires-python = ">=3.9"
 [tool.uv.sources]
 hw2_inbox_impl = { workspace = true }
 ai_conversation_client = {workspace = true}
+
+[tool.pytest.ini_options]
+pythonpath = ["."] 

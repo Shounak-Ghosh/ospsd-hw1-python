@@ -6,7 +6,7 @@ follows proper abstraction principles.
 
 Example usage:
     ```python
-    from src.components.ai_conversation_client import get_client
+    from  import get_client
     
     # Get a client instance (factory handles API key retrieval)
     client = get_client("cerebras")
@@ -22,10 +22,10 @@ Example usage:
 
 from typing import Any
 
-from src.components.ai_conversation_client.api import AIConversationClient
-from src.components.ai_conversation_client.cerebras_client import CerebrasClient
-from src.components.ai_conversation_client.factory import AIClientFactory
-from src.components.ai_conversation_client.mock_client import MockAIClient
+from .api import AIConversationClient
+from .cerebras_client import CerebrasClient
+from .factory import AIClientFactory
+from .mock_client import MockAIClient
 
 
 # Register available clients (this happens when the package is imported)

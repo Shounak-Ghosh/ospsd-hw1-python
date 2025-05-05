@@ -12,3 +12,6 @@ requires-python = ">=3.9"
 [tool.uv.sources]
 hw2_inbox_impl = { workspace = true }
 hw2_inbox_api = {workspace = true}
+integration = {workspace = true}
+ai_conversation_client = {workspace = true}
+

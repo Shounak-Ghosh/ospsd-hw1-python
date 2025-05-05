@@ -8,7 +8,7 @@ import sys
 from datetime import datetime
 from typing import Any, cast
 
-from src.components.ai_conversation_client import CerebrasClient
+from .cerebras_client import CerebrasClient
 
 
 def format_ai_response(text: str) -> str:
