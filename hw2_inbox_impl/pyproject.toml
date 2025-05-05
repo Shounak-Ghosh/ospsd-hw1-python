@@ -25,6 +25,9 @@ ignore = [
 ]
 fixable = ["ALL"]  # Allow Ruff to auto-fix issues
 
+[tool.uv.sources]
+hw2_inbox_api = {workspace = true}
+
 [tool.mypy]
 python_version = "3.9"
 warn_return_any = true
