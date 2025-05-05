@@ -1,5 +1,12 @@
+"""Integration module for spam detection.
+
+This module integrates a Gmail client and an AI conversation client to detect
+spam emails and save the results to a CSV file.
+"""
+
 import csv
 from typing import Any, List
+
 from hw2_inbox_impl import gmail_client
 from ai_conversation_client.src.components.ai_conversation_client import api
 
@@ -8,6 +15,7 @@ class SpamDetector:
     """Spam detector that uses a mail client and an AI conversation client."""
 
     def __init__(self, mail_client: gmail_client.GmailClient, ai_client: api.AIConversationClient) -> None:
+        """Initialize the SpamDetector."""
         self.mail_client = mail_client
         self.ai_client = ai_client
 
@@ -51,7 +59,7 @@ class SpamDetector:
             pct_spam = self.analyze_email(session_id, email)
             rows.append({
                 "mail_id": email.id,
-                "Pct_spam": pct_spam
+                "Pct_spam": pct_spam,
             })
 
         self.ai_client.end_session(session_id)
