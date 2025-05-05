@@ -3,13 +3,14 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ospsd-hw4"
+name = "hw2_inbox"
 version = "0.1.0"
-description = "Gmail client with AI integration"
+description = "Gmail client implementation"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
     "google-api-python-client>=2.166.0",
+    "google-auth>=2.28.0",
     "google-auth-httplib2>=0.2.0",
     "google-auth-oauthlib>=1.2.1",
 ]
@@ -21,7 +22,11 @@ dev = [
     "mypy>=1.0.0",
     "pytest-cov>=4.1.0",
     "pytest-html>=4.0.0",
+    "ruff"
 ]
+
+[tool.uv.workspace]
+members = ["hw2_inbox_api", "hw2_inbox_impl", "hw2_tests", "integration", "ai_conversation_client"]
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -38,17 +43,21 @@ ignore = [
 fixable = ["ALL"]  # Allow Ruff to auto-fix issues
 
 [tool.setuptools]
-packages = ["src", "src.components", "src.components.hw2_inbox", "src.components.ai_conversation_client"]
-package-dir = {"" = "."}
+packages = ["hw2_inbox_impl", "hw2_inbox_api", "integration", "ai_conversation_client"]
+package-dir = {"hw2_inbox_impl" = "hw2_inbox_impl/src/hw2_inbox_impl", "hw2_inbox_api" = "hw2_inbox_api/src/hw2_inbox_api", "integration" = "integration/src/integration", "ai_conversation_client" = "ai_conversation_client/src"}
 
 [tool.pytest.ini_options]
 addopts = "-v"
-testpaths = ["src/components"]  
+testpaths = ["hw2_tests"]  
 python_files = ["test_*.py"]
-pythonpath = ["."]
+pythonpath = [
+    "hw2_inbox_api/src",
+    "hw2_inbox_impl/src",
+    "integration/src"
+]
 
 [tool.coverage.run]
-source = ["src/components"]
+source = ["hw2_inbox_impl", "hw2_inbox_api", "integration"]
 
 [tool.coverage.html]
 directory = "htmlcov"

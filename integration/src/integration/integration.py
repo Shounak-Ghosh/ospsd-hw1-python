@@ -6,8 +6,12 @@ This script integrates the Gmail client with an AI client to analyze emails for 
 import os
 from typing import Any, List, Tuple
 
-from src.components.ai_conversation_client.src.components.ai_conversation_client.factory import AIClientFactory
-from src.components.hw2_inbox.implementation.src.implementation.gmail_client import GmailClient
+from src.components.ai_conversation_client.src.components.ai_conversation_client.factory import (
+    AIClientFactory,
+)
+from src.components.hw2_inbox.implementation.src.implementation.gmail_client import (
+    GmailClient,
+)
 
 
 def analyze_emails_for_spam(
@@ -24,9 +28,9 @@ def analyze_emails_for_spam(
 
     Returns:
         List of tuples containing (email_id, spam_probability)
+
     """
     # TODO: Implement email fetching and analysis
-    pass
 
 
 def write_results_to_csv(
@@ -38,9 +42,9 @@ def write_results_to_csv(
     Args:
         results: List of tuples containing (email_id, spam_probability)
         output_file: Path to output CSV file
+
     """
     # TODO: Implement CSV writing
-    pass
 
 
 def main() -> None:
@@ -49,7 +53,7 @@ def main() -> None:
     gmail_client = GmailClient()
     ai_client = AIClientFactory.create_client(
         "cerebras",
-        api_key=os.getenv("CEREBRAS_API_KEY")
+        api_key=os.getenv("CEREBRAS_API_KEY"),
     )
 
     # Analyze emails
@@ -60,4 +64,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main() 
+    main()

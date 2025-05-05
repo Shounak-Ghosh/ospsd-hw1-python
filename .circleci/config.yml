@@ -11,10 +11,6 @@ commands:
     steps:
       - checkout
       - run:
-          name: Initialize and update submodules
-          command: |
-            git submodule update --init --recursive
-      - run:
           name: Install UV using curl
           command: |
             curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -22,13 +18,8 @@ commands:
           name: Install Project Dependencies
           command: |
             uv venv
-            # Install root project dependencies
-            uv pip install -e ".[dev]"
-            # Install hw2-inbox dependencies
-            cd src/components/hw2_inbox && uv pip install -e ".[dev]"
-            cd ../../..
-            # Install additional dev dependencies for type checking
-            uv pip install types-setuptools>=42.0.0
+            source .venv/bin/activate
+            uv sync && uv sync --extra dev
 
 jobs:
   lint-and-static-analysis:
@@ -38,11 +29,11 @@ jobs:
       - run:
           name: Run Ruff (Code Formatting and Linting)
           command: |
-            uv run ruff check src
+            uv run ruff check .
       - run:
           name: Run Mypy (Static Type Checking)
           command: |
-            uv run mypy src
+            uv run mypy .
 
   test:
     executor: python-executor
@@ -54,7 +45,7 @@ jobs:
             mkdir -p test-results/pytest
             # Run tests and generate test report
             uv run pytest \
-              src \
+              hw2_tests \
               --junitxml=test-results/pytest/junit.xml \
               --html=test-results/report.html \
               --self-contained-html
@@ -80,11 +71,11 @@ jobs:
           command: |
             # Generate coverage reports
             uv run pytest \
-              --cov=src \
+              --cov=hw2_inbox_impl \
               --cov-report=html \
               --cov-report=xml \
               --cov-report=term-missing \
-              src/components/hw2_inbox/tests
+              hw2_tests
       - store_artifacts:
           path: htmlcov
           destination: coverage-html-report

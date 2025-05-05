@@ -14,7 +14,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow  # type: ignore[import]
 from googleapiclient.discovery import Resource, build  # type: ignore[import]
 from googleapiclient.errors import HttpError  # type: ignore[import]
-from hw2_inbox.interface.src.interface import GmailClientInterface
+from hw2_inbox_api import GmailClientInterface
 
 from .constants import GMAIL_SCOPES
 
