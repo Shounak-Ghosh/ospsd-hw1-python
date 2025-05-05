@@ -1,3 +1,3 @@
 [submodule "ai_conversation_client"]
 	path = ai_conversation_client
-	url = https://github.com/BhanuPrakashNani/python-template-repo.git
+	url = git@github.com:BhanuPrakashNani/python-template-repo.git
