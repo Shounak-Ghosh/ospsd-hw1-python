@@ -44,7 +44,7 @@ fixable = ["ALL"]  # Allow Ruff to auto-fix issues
 
 [tool.setuptools]
 packages = ["hw2_inbox_impl", "hw2_inbox_api", "integration", "ai_conversation_client"]
-package-dir = {"hw2_inbox_impl" = "hw2_inbox_impl/src/hw2_inbox_impl", "hw2_inbox_api" = "hw2_inbox_api/src/hw2_inbox_api", "integration" = "integration/src/integration", "ai_conversation_client" = "ai_conversation_client/src"}
+package-dir = {"hw2_inbox_impl" = "hw2_inbox_impl/src/hw2_inbox_impl", "hw2_inbox_api" = "hw2_inbox_api/src/hw2_inbox_api", "integration" = "integration/src/integration","ai_conversation_client" = "ai_conversation_client/src/components/ai_conversation_client"}
 
 [tool.pytest.ini_options]
 addopts = "-v"
@@ -52,12 +52,11 @@ testpaths = ["hw2_tests"]
 python_files = ["test_*.py"]
 pythonpath = [
     "hw2_inbox_api/src",
-    "hw2_inbox_impl/src",
-    "integration/src"
+    "hw2_inbox_impl/src"
 ]
 
 [tool.coverage.run]
-source = ["hw2_inbox_impl", "hw2_inbox_api", "integration"]
+source = ["hw2_inbox_impl", "hw2_inbox_api"]
 
 [tool.coverage.html]
 directory = "htmlcov"

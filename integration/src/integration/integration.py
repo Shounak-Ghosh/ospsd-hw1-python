@@ -1,67 +1,62 @@
-"""Integration script for Gmail client and AI client.
-
-This script integrates the Gmail client with an AI client to analyze emails for spam.
-"""
-
-import os
-from typing import Any, List, Tuple
-
-from src.components.ai_conversation_client.src.components.ai_conversation_client.factory import (
-    AIClientFactory,
-)
-from src.components.hw2_inbox.implementation.src.implementation.gmail_client import (
-    GmailClient,
-)
+import csv
+from typing import Any, List
+from hw2_inbox_impl import gmail_client
+from ai_conversation_client.src.components.ai_conversation_client import api
 
 
-def analyze_emails_for_spam(
-    gmail_client: GmailClient,
-    ai_client: Any,
-    query: str = "is:unread",
-) -> List[Tuple[str, float]]:
-    """Analyze emails for spam probability using AI.
+class SpamDetector:
+    """Spam detector that uses a mail client and an AI conversation client."""
 
-    Args:
-        gmail_client: Instance of GmailClient to fetch emails
-        ai_client: Instance of AI client for spam analysis
-        query: Gmail search query to filter emails
+    def __init__(self, mail_client: gmail_client.GmailClient, ai_client: api.AIConversationClient) -> None:
+        self.mail_client = mail_client
+        self.ai_client = ai_client
 
-    Returns:
-        List of tuples containing (email_id, spam_probability)
+    def crawl_emails(self, max_count: int = 10) -> List[dict[str, Any]]:
+        """Fetch emails from the mailbox."""
+        return list(self.mail_client.get_emails())[:max_count]
 
-    """
-    # TODO: Implement email fetching and analysis
+    def analyze_email(self, session_id: str, email: dict[str, Any]) -> float:
+        """Analyze a single email and return spam probability percentage."""
+        prompt = (
+            "You are an email classifier. Given the following email content, "
+            "analyze and output the probability that this email is spam. "
+            "Reply only with a number between 0 and 100. No explanation.\n\n"
+            f"Subject: {email.subject}\n"
+            f"From: {email.from_}\n"
+            f"To: {email.to}\n"
+            f"Date: {email.date}\n"
+            f"Body: {email.body}\n"
+        )
 
+        try:
+            response = self.ai_client.send_message(session_id, prompt)
+            content = response.get("content", "").strip()
+            probability = float(content)
+            return max(0.0, min(100.0, probability))  # Clamp to [0, 100]
+        except (ValueError, KeyError, AttributeError):
+            # Parsing issue or unexpected response format
+            return 0.0
+        except Exception as e:
+            # broader issues like network and api error
+            print(f"Failed to analyze email {email.id}: {e}")
+            return 0.0
 
-def write_results_to_csv(
-    results: List[Tuple[str, float]],
-    output_file: str = "output.csv",
-) -> None:
-    """Write analysis results to a CSV file.
+    def detect_spam(self, output_csv: str, max_emails: int = 10) -> None:
+        """Run detection and save results to a CSV file."""
+        session_id = self.ai_client.start_new_session(user_id="spam_detector")
+        emails = self.crawl_emails(max_count=max_emails)
 
-    Args:
-        results: List of tuples containing (email_id, spam_probability)
-        output_file: Path to output CSV file
+        rows = []
+        for email in emails:
+            pct_spam = self.analyze_email(session_id, email)
+            rows.append({
+                "mail_id": email.id,
+                "Pct_spam": pct_spam
+            })
 
-    """
-    # TODO: Implement CSV writing
+        self.ai_client.end_session(session_id)
 
-
-def main() -> None:
-    """Main function to run the integration."""
-    # Initialize clients
-    gmail_client = GmailClient()
-    ai_client = AIClientFactory.create_client(
-        "cerebras",
-        api_key=os.getenv("CEREBRAS_API_KEY"),
-    )
-
-    # Analyze emails
-    results = analyze_emails_for_spam(gmail_client, ai_client)
-
-    # Write results
-    write_results_to_csv(results)
-
-
-if __name__ == "__main__":
-    main()
+        with open(output_csv, mode="w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=["mail_id", "Pct_spam"])
+            writer.writeheader()
+            writer.writerows(rows)
