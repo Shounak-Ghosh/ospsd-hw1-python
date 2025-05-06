@@ -1,40 +1,54 @@
 # Components Documentation
 
-This section provides an overview of the components in the `src/components/` directory. Each component is designed to perform a specific function and is tested with unit, integration, and end-to-end tests. Each component is a separate UV package with its own dependencies and configuration.
+This section provides an overview of the components in the `src/components/` directory. Each component is designed to perform a specific function and is tested with unit and integration tests.
 
 ## Directory Structure
 ```
 /ospsd-hw1-python
 ├── .circleci/
 │   └── config.yml
-├── src/
-│   ├── calculator
-│   │   ├── _init_.py
-│   │   ├── calculator.py
-│   │   ├── pyproject.toml
-│   │   └── test_calculator.py
-│   ├── logger
-│   │   ├── _init_.py
-│   │   ├── logger.py
-│   │   ├── pyproject.toml
-│   │   └── test_logger.py
-│   ├── notifier
-│   │   ├── _init_.py
-│   │   ├── notifier.py
-│   │   ├── pyproject.toml
-│   │   └── test_notifier.py
-│   └──_init_.py
-├── test-results/
-│   └──report.html
-├── tests/
-│   ├── end_to_end/
-│   │   ├── _init_.py
-│   │   └── test_e2e.py
-│   ├── integration/
-│   │   ├── _init_.py
-│   │   ├── test_calc_logger_integration.py
-│   │   └── test_calc_notifier_integration.py
-│   └──_init_.py
+├── ai_conversation_client/
+│   ├── src/
+│   │   ├── __init__.py
+│   │   ├── api.py
+│   │   ├── cerebras_client.py
+│   │   ├── cli.py
+│   │   ├── example.py
+│   │   ├── factory.py
+│   │   ├── interface.py
+│   │   └── mock_client/
+│   ├── test-results/
+│   │   └── coverage.xml
+├── hw2_inbox_api/
+│   ├── src/
+│   │   ├── hw2_inbox_api/
+│   │   │   └── __init__.py
+│   ├── pyproject.toml
+│   └── README.md
+├── hw2_inbox_impl/
+│   ├── src/
+│   │   ├── hw2_inbox_impl/
+│   │   │   ├── __init__.py
+│   │   │   ├── constants.py
+│   │   │   └── gmail_client.py
+│   └── pyproject.toml
+├── hw2_tests/
+│   ├── src/
+│   │   ├── hw2_tests/
+│   │   │   ├── __init__.py
+│   │   │   ├── test_hw2_inbox.py
+│   │   │   ├── test_integration.py
+│   │   │   └── test_spam_detector.py
+│   └── pyproject.toml
+├── integration/
+│   ├── src/
+│   │   ├── integration/
+│   │   │   ├── __init__.py
+│   │   │   ├── a.py
+│   │   │   ├── constant.py
+│   │   │   └── integration.py
+│   ├── pyproject.toml
+│   └── README.md
 ├── .gitignore
 ├── component.md
 ├── LICENSE
@@ -46,96 +60,32 @@ This section provides an overview of the components in the `src/components/` dir
 
 ---
 
-## 1. **Calculator**
-### Description
-The `Calculator` component performs basic arithmetic operations, such as addition, subtraction, and multiplication.
-
-### Location
-- File: `src/calculator/calculator.py`
-
-### Methods
-- **`add(a: float, b: float) -> float`**
-  Adds two inputs and returns the result.
-
-- **`subtract(a: float, b: float) -> float`**
-  Subtracts the second input from the first input and returns the result.  
-
-- **`multiply(a: float, b: float) -> float`**
-  Multiplies two inputs and returns the result.
-
-- **`divide(a: float, b: float) -> float`**
-  Divides the first input by the second input and returns the result.
-
-### Unit Tests
-- File: `src/calculator/test_calculator.py`
-- Tests:
-  - `test_add`: Verifies the `add` method.
-  - `test_subtract`: Verifies the `subtract` method.
-  - `test_multiply`: Verifies the `multiply` method.
-  - `test_divide`: Verifies the `divide` method.
-
----
-
-## 2. **Logger**
+## 1. **SpamDetector**
 
 ### Description
-The `Logger` component keeps track of operations performed by the calculator and stores them in a log (along with the timestamp of each operation).
+The `SpamDetector` component analyzes emails for spam using AI-based models. It integrates with AI clients to classify emails and generate spam detection reports.
 
 ### Location
-- File: `src/logger/logger.py`
-- Class: `OperationLogger`
+- File: `integration/src/integration/spam_detector.py`
+- Class: `SpamDetector`
 
 ### Methods
-- **`log_operation(operation: str) -> None`**
-  Logs a message.
-- **`get_history() -> list[str]`**
-  Returns list containing history of operations.
+- **`detect_spam(output_csv: str | None = None, max_emails: int | None = None) -> None`**
+  Analyzes emails for spam and saves the results to a CSV file.
+- **`analyze_email(session_id: str, email: dict[str, Any]) -> float`**
+  Analyzes a single email and returns the percentage likelihood of it being spam.
 
 ### Unit Tests
-- File: `src/logger/test_logger.py`
+- File: `hw2_tests/src/hw2_tests/test_spam_detector.py`
 - Tests:
-  - `test_log_operation`: Verifies the `log_operation` method.
-
----
-
-## 3. **Notifier**
-
-### Description
-The `Notifier` component sends an alert when the result of a `Calculator` operation exceeds a specified threshold.
-
-### Location
-- File: `src/notifier/notifier.py`
-- Class: `Notifier`
-
-### Methods
-- **`send_notification(result: float) -> str`**  
-  Sends a notification if the input result is over the threshold.
-
-### Unit Tests
-- File: `src/notifier/test_notifier.py`
-- Tests:
-  - `test_send_notification`: Verifies the `send_notification` method.
+  - `test_detect_spam`: Verifies the `detect_spam` method.
+  - `test_analyze_email`: Verifies the `analyze_email` method.
 
 ---
 
 ## Integration Tests
 
-### Calculator and Logger
-- File: `tests/integration/test_calc_logger_integration.py`
+### SpamDetector
+- File: `hw2_tests/src/hw2_tests/test_integration.py`
 - Tests:
-  - Verifies that `Calculator` operations are logged by the `Logger`.
-
-### Calculator and Notifier
-- File: `tests/integration/test_calc_notifier_integration.py`
-- Tests:
-  - Verifies that `Calculator` operations trigger the `Notifier` when a threshold is exceeded.
-
-## End-to-End Tests
-
-### Calculator -> Logger -> Notifier
-- File: `tests/end_to_end/test_e2e.py`
-- Tests:
-  - Verifies the workflow from component to component:  
-    1. Perform a calculation using the `Calculator`.  
-    2. Log the operation using the `Logger`.  
-    3. Send a notification using the `Notifier` if the result exceeds a threshold.
+  - Verifies that the `SpamDetector` integrates with AI clients and handles errors gracefully.
