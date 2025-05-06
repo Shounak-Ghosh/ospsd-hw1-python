@@ -77,7 +77,7 @@ Make sure that development dependencies are installed.
     ```
 
 ### CircleCI Links
-[CircleCI Success](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/56/workflows/b36bd302-2794-4e2c-8059-c145990d9c61)
+[CircleCI Success](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/123/workflows/1aa9a520-575c-45b3-a32f-c057e8de7389)
 
 ### Additional Notes
 - The `SpamDetector` component has been added to analyze emails for spam using AI-based models. Mock implementations are provided for testing purposes.
