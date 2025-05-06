@@ -8,7 +8,7 @@ import json
 import os
 import uuid
 from datetime import datetime
-from typing import Optional, Union, cast, List, Dict
+from typing import Optional, Union, cast
 
 from .api import AIConversationClient
 from .factory import AIClientFactory
@@ -165,7 +165,7 @@ class MockAIClient(AIConversationClient):
         if limit is not None:
             history = history[-limit:]
 
-        return cast(List[Dict[str, Union[str, datetime]]], history)
+        return cast(list[dict[str, Union[str, datetime]]], history)
 
     def start_new_session(self, user_id: str, model: Optional[str] = None) -> str:
         """Start a new conversation session.
