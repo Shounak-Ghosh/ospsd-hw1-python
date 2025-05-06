@@ -41,6 +41,7 @@ ignore = [
     "F811", # Allow function redefinition in tests
     "N803", # Allow uppercase parameter names to match Gmail API
     "A002", # Allow shadowing of built-in names in parameters
+    "C901", # Ignore complexity issues since we are not concerned about cyclomatic complexity in this project
 ]
 fixable = ["ALL"]  # Allow Ruff to auto-fix issues
 
@@ -69,7 +70,7 @@ directory = "htmlcov"
 output = "coverage.xml"
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.11"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true

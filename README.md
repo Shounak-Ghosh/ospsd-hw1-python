@@ -84,6 +84,4 @@ Make sure that dev dependencies are installed.
     ```
 
 ### CircleCI Links 
-[CircleCI Failure](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/78/workflows/7c323b9e-0631-4e84-be1e-63075608c716)
-
 [CircleCI Success](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/56/workflows/b36bd302-2794-4e2c-8059-c145990d9c61)

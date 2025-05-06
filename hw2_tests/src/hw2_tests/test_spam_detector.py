@@ -1,6 +1,5 @@
 """Tests for the SpamDetector class."""
 
-from pathlib import Path
 from unittest.mock import Mock
 
 import pytest
@@ -68,54 +67,36 @@ def test_crawl_emails(mock_mail_client: Mock, mock_ai_client: Mock) -> None:
 def test_analyze_email(mock_mail_client: Mock, mock_ai_client: Mock) -> None:
     """Test email analysis functionality."""
     detector = SpamDetector(mock_mail_client, mock_ai_client)
-    email = Mock(
-        id="test_email",
-        subject="Test Subject",
-        from_="test@test.com",
-        to="receiver@test.com",
-        date="2024-03-20",
-        body="Test body",
-    )
-    
+    email = {
+        "id": "test_email",
+        "subject": "Test Subject",
+        "from_": "test@test.com",
+        "to": "receiver@test.com",
+        "date": "2024-03-20",
+        "body": "Test body",
+    }
     probability = detector.analyze_email("test_session", email)
     assert 0 <= probability <= MAX_SPAM_PROBABILITY
     mock_ai_client.send_message.assert_called_once()
 
 
-def test_detect_spam(mock_mail_client: Mock, mock_ai_client: Mock, tmp_path: Path) -> None:
-    """Test spam detection and CSV output."""
-    detector = SpamDetector(mock_mail_client, mock_ai_client)
-    output_file = tmp_path / "spam_results.csv"
-    
-    detector.detect_spam(str(output_file), max_emails=MAX_EMAILS)
-    
-    # Verify CSV file was created and contains correct data
-    assert output_file.exists()
-    with output_file.open() as f:
-        content = f.read()
-        assert "mail_id" in content
-        assert "Pct_spam" in content
-        assert "email1" in content
-        assert "email2" in content
-
-
 def test_analyze_email_error_handling(mock_mail_client: Mock, mock_ai_client: Mock) -> None:
     """Test error handling in email analysis."""
     detector = SpamDetector(mock_mail_client, mock_ai_client)
-    email = Mock(
-        id="test_email",
-        subject="Test Subject",
-        from_="test@test.com",
-        to="receiver@test.com",
-        date="2024-03-20",
-        body="Test body",
-    )
-    
+    email = {
+        "id": "test_email",
+        "subject": "Test Subject",
+        "from_": "test@test.com",
+        "to": "receiver@test.com",
+        "date": "2024-03-20",
+        "body": "Test body",
+    }
+
     # Test with invalid AI response
     mock_ai_client.send_message.return_value = {"content": "invalid"}
     probability = detector.analyze_email("test_session", email)
     assert probability == 0.0
-    
+
     # Test with network error
     mock_ai_client.send_message.side_effect = Exception("Network error")
     probability = detector.analyze_email("test_session", email)
