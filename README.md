@@ -8,7 +8,7 @@ This repository provides a foundation for Python-based projects with integrated 
 - **Static Analysis**: Uses `ruff` for code formatting and linting and `mypy` for static type checking to ensure code quality
 - **Code Formatting**: Maintains consistent code style
 - **Testing Framework**: Uses `pytest` for unit and integration tests
-- **Components**: Includes `SpamDetector` with corresponding tests and documentation
+- **Components**: Includes `SpamDetector` with corresponding tests
 - **Code Coverage**: Generates code coverage reports
 
 ## Getting Started
@@ -44,7 +44,7 @@ This repository provides a foundation for Python-based projects with integrated 
 4. Install dependencies (development dependencies are optional):
     ```bash
     uv sync
-    uv pip install -e ".[dev]"
+    uv sync --extra dev 
     ```
 
 ### Executing Tests
@@ -65,6 +65,7 @@ Make sure that development dependencies are installed.
     ```bash
     uv run pytest \
               --cov=hw2_inbox_impl \
+              --cov=integration \
               --cov-report=html \
               --cov-report=xml \
               --cov-report=term-missing
