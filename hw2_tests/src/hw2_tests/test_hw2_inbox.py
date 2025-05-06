@@ -41,12 +41,6 @@ def test_connect_success(client: gmail_client.GmailClient, mock_gmail_api: Any) 
     assert client.connect() is True
 
 
-# def test_connect_failure(client: gmail_client.GmailClient, mock_gmail_api: Any) -> None:  # noqa: ANN401
-#     """Test failed connection to Gmail service."""
-#     mock_gmail_api.users.return_value.getProfile.return_value.execute.side_effect = Exception("Connection failed")
-#     assert client.connect() is False
-
-
 def test_login_success(client: gmail_client.GmailClient, mock_gmail_api: Any) -> None:  # noqa: ANN401
     """Test successful login to Gmail service."""
     mock_gmail_api.users.return_value.getProfile.return_value.execute.return_value = {

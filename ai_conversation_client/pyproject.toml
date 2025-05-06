@@ -21,7 +21,7 @@ package-dir = {"" = "src"}
 
 [tool.ruff.lint]
 select = ["F", "E", "W", "I", "UP", "D", "ANN"]
-ignore = ["D100", "D104", "D107", "ANN101","ANN401"]
+ignore = ["E501", "D100", "D104", "D107", "ANN101","ANN401"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

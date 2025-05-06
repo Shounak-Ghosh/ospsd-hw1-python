@@ -5,7 +5,7 @@ Defines the abstract interface for interacting with AI conversation services.
 
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Any, List, Dict, Optional, Union
+from typing import Optional, Union
 
 
 class AIConversationClient(ABC):
@@ -18,8 +18,7 @@ class AIConversationClient(ABC):
 
     @abstractmethod
     def __init__(self, api_key: Optional[str] = None) -> None:
-        """
-        Initialize a new AI conversation client instance.
+        """Initialize a new AI conversation client instance.
 
         Args:
             api_key: Optional API key for authentication with the service.
@@ -31,8 +30,8 @@ class AIConversationClient(ABC):
 
     @abstractmethod
     def send_message(
-        self, session_id: str, message: str, attachments: Optional[List[str]] = None
-    ) -> Dict[str, Union[str, List[str], datetime]]:
+        self, session_id: str, message: str, attachments: Optional[list[str]] = None
+    ) -> dict[str, Union[str, list[str], datetime]]:
         """Send a message to the AI service and get a response.
 
         Args:
@@ -55,7 +54,7 @@ class AIConversationClient(ABC):
     @abstractmethod
     def get_chat_history(
         self, session_id: str, limit: Optional[int] = None
-    ) -> List[Dict[str, Union[str, datetime]]]:
+    ) -> list[dict[str, Union[str, datetime]]]:
         """Retrieve conversation history for a session.
 
         Args:
@@ -104,7 +103,7 @@ class AIConversationClient(ABC):
         pass
 
     @abstractmethod
-    def list_available_models(self) -> List[Dict[str, Union[str, List[str], int, bool]]]:
+    def list_available_models(self) -> list[dict[str, Union[str, list[str], int, bool]]]:
         """Get available AI models with their capabilities.
 
         Returns:
@@ -154,7 +153,7 @@ class AIConversationClient(ABC):
         pass
 
     @abstractmethod
-    def get_usage_metrics(self, session_id: str) -> Dict[str, Union[int, float]]:
+    def get_usage_metrics(self, session_id: str) -> dict[str, Union[int, float]]:
         """Get usage statistics for a session.
 
         Args:

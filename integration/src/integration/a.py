@@ -1,27 +1,21 @@
-# from google_auth_oauthlib.flow import InstalledAppFlow
+"""Authorize Gmail API and save credentials.
 
-# SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+This script uses the Google OAuth 2.0 flow to authorize access to the Gmail API
+and saves the credentials to a `token.json` file for future use.
+"""
 
-# flow = InstalledAppFlow.from_client_secrets_file('credentials.json', scopes=SCOPES)
-# creds = flow.run_local_server(port=8000)
+from pathlib import Path
 
-# print("Access Token:", creds.token)
-# print("Refresh Token:", creds.refresh_token)
-
-# authorize_gmail.py
-import os
-import json
-import pickle
 from google_auth_oauthlib.flow import InstalledAppFlow
 
-SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
 
-def main():
-    flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+def main() -> None:
+    """Run the OAuth 2.0 flow to authorize Gmail API access and save credentials."""
+    flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
     creds = flow.run_local_server(port=8000)
-    with open('token.json', 'w') as token:
+    with Path("token.json").open("w") as token:
         token.write(creds.to_json())
-    print("Access and refresh tokens saved to token.json")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -8,7 +8,7 @@ import json
 import os
 import uuid
 from datetime import datetime
-from typing import Dict, List, Optional, Union
+from typing import Optional, Union
 
 from .api import AIConversationClient
 from .factory import AIClientFactory
@@ -56,17 +56,17 @@ class MockAIClient(AIConversationClient):
         """Initialize a new mock AI conversation client instance.
 
         Args:
-            api_key: Optional API key (not actually used but included for 
+            api_key: Optional API key (not actually used but included for
                 interface compatibility).
         """
         self.api_key = api_key or "mock-api-key"
-        self._sessions: Dict[str, Dict] = {}
+        self._sessions: dict[str, dict] = {}
         self._response_index = 0
-        self._custom_responses: Dict[str, str] = {}
+        self._custom_responses: dict[str, str] = {}
 
     def send_message(
-        self, session_id: str, message: str, attachments: Optional[List[str]] = None
-    ) -> Dict[str, Union[str, List[str], datetime]]:
+        self, session_id: str, message: str, attachments: Optional[list[str]] = None
+    ) -> dict[str, Union[str, list[str], datetime]]:
         """Send a message to the mock AI and get a pre-defined response.
 
         Args:
@@ -144,7 +144,7 @@ class MockAIClient(AIConversationClient):
 
     def get_chat_history(
         self, session_id: str, limit: Optional[int] = None
-    ) -> List[Dict[str, Union[str, datetime]]]:
+    ) -> list[dict[str, Union[str, datetime]]]:
         """Retrieve conversation history for a session.
 
         Args:
@@ -220,7 +220,7 @@ class MockAIClient(AIConversationClient):
         self._sessions[session_id]["active"] = False
         return True
 
-    def list_available_models(self) -> List[Dict[str, Union[str, List[str], int, bool]]]:
+    def list_available_models(self) -> list[dict[str, Union[str, list[str], int, bool]]]:
         """Get available mock AI models.
 
         Returns:
@@ -296,7 +296,7 @@ class MockAIClient(AIConversationClient):
 
         return True
 
-    def get_usage_metrics(self, session_id: str) -> Dict[str, Union[int, float]]:
+    def get_usage_metrics(self, session_id: str) -> dict[str, Union[int, float]]:
         """Get usage statistics for a session.
 
         Args:
@@ -429,4 +429,4 @@ class MockAIClient(AIConversationClient):
 
 
 # Register the mock client with the factory
-AIClientFactory.register_client("mock", MockAIClient) 
+AIClientFactory.register_client("mock", MockAIClient)

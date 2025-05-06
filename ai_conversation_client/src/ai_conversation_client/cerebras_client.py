@@ -7,7 +7,7 @@ import json
 import os
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Union, cast
+from typing import Any, Optional, Union, cast
 
 import requests
 
@@ -67,7 +67,7 @@ class CerebrasClient(AIConversationClient):
                 environment variable.
 
         Raises:
-            ValueError: If no API key is provided and none is found in 
+            ValueError: If no API key is provided and none is found in
                 environment variables.
         """
         self.api_key = api_key or os.environ.get("CEREBRAS_API_KEY")
@@ -79,7 +79,7 @@ class CerebrasClient(AIConversationClient):
             )
 
         # Dictionary to store active conversation sessions
-        self._sessions: Dict[str, Dict[str, Any]] = {}
+        self._sessions: dict[str, dict[str, Any]] = {}
 
         # Headers for API requests
         self._headers = {
@@ -88,8 +88,8 @@ class CerebrasClient(AIConversationClient):
         }
 
     def send_message(
-        self, session_id: str, message: str, attachments: Optional[List[str]] = None
-    ) -> Dict[str, Union[str, List[str], datetime]]:
+        self, session_id: str, message: str, attachments: Optional[list[str]] = None
+    ) -> dict[str, Union[str, list[str], datetime]]:
         """Send a message to the Cerebras AI service and get a response.
 
         Args:
@@ -111,14 +111,14 @@ class CerebrasClient(AIConversationClient):
         # Validate session_id
         if not session_id:
             raise ValueError("Session ID cannot be empty")
-            
+
         if session_id not in self._sessions:
             raise ValueError(f"Session {session_id} does not exist")
-            
+
         # Validate message
         if not message or not message.strip():
             raise ValueError("Message cannot be empty")
-            
+
         # Validate attachments if provided
         if attachments:
             for attachment in attachments:
@@ -127,7 +127,7 @@ class CerebrasClient(AIConversationClient):
 
         # Get the session data
         session = self._sessions[session_id]
-        
+
         # Check if session is active
         if not session.get("active", False):
             raise ValueError(f"Session {session_id} is no longer active")
@@ -166,7 +166,7 @@ class CerebrasClient(AIConversationClient):
         # Make the API request
         try:
             response = requests.post(url, headers=self._headers, json=payload, timeout=60)
-            
+
             # Handle HTTP errors
             if response.status_code == 401:
                 raise RuntimeError("Authentication failed: Invalid API key")
@@ -178,19 +178,19 @@ class CerebrasClient(AIConversationClient):
                 raise RuntimeError("Rate limit exceeded. Please try again later")
             elif response.status_code >= 500:
                 raise RuntimeError(f"Cerebras API server error: {response.status_code}")
-            
+
             response.raise_for_status()
 
             # Extract the response content
             response_data = response.json()
-            
+
             # Validate response structure
             if "choices" not in response_data or not response_data["choices"]:
                 raise RuntimeError("Invalid response format from Cerebras API")
-                
+
             if "message" not in response_data["choices"][0]:
                 raise RuntimeError("Missing message content in API response")
-                
+
             ai_message = response_data["choices"][0]["message"]["content"]
 
             # Add the AI response to the chat history
@@ -244,7 +244,7 @@ class CerebrasClient(AIConversationClient):
 
     def get_chat_history(
         self, session_id: str, limit: Optional[int] = None
-    ) -> List[Dict[str, Union[str, datetime]]]:
+    ) -> list[dict[str, Union[str, datetime]]]:
         """Retrieve conversation history for a session.
 
         Args:
@@ -270,14 +270,14 @@ class CerebrasClient(AIConversationClient):
             history = history[-limit:]
 
         # Ensure we return the right type
-        return cast(List[Dict[str, Union[str, datetime]]], history)
+        return cast(list[dict[str, Union[str, datetime]]], history)
 
     def start_new_session(self, user_id: str, model: Optional[str] = None) -> str:
         """Start a new conversation session.
 
         Args:
             user_id: Unique identifier for the user.
-            model: Optional model identifier to use. 
+            model: Optional model identifier to use.
                 Defaults to 'llama-4-scout-17b-16e-instruct' if not specified.
 
         Returns:
@@ -289,10 +289,10 @@ class CerebrasClient(AIConversationClient):
         # Validate user_id
         if not user_id or not user_id.strip():
             raise ValueError("User ID cannot be empty")
-            
+
         # Use default model if not specified
         model_id = model or "llama-4-scout-17b-16e-instruct"
-        
+
         # Validate model exists
         valid_models = [m["id"] for m in self.list_available_models()]
         if model_id not in valid_models:
@@ -347,7 +347,7 @@ class CerebrasClient(AIConversationClient):
         self._sessions[session_id]["active"] = False
         return True
 
-    def list_available_models(self) -> List[Dict[str, Union[str, List[str], int, bool]]]:
+    def list_available_models(self) -> list[dict[str, Union[str, list[str], int, bool]]]:
         """Get available AI models with their capabilities.
 
         Returns:
@@ -357,7 +357,7 @@ class CerebrasClient(AIConversationClient):
                 - capabilities: List of supported features
                 - max_tokens: Maximum context length
                 - knowledge_cutoff: Date of knowledge cutoff
-                - private_preview: Whether the model is in private preview 
+                - private_preview: Whether the model is in private preview
                   (for some models)
         """
         return self.AVAILABLE_MODELS
@@ -419,7 +419,7 @@ class CerebrasClient(AIConversationClient):
         # This is a placeholder for future implementation
         raise NotImplementedError("File attachment not yet implemented")
 
-    def get_usage_metrics(self, session_id: str) -> Dict[str, Union[int, float]]:
+    def get_usage_metrics(self, session_id: str) -> dict[str, Union[int, float]]:
         """Get usage statistics for a session.
 
         Args:
