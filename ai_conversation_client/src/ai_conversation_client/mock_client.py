@@ -8,7 +8,7 @@ import json
 import os
 import uuid
 from datetime import datetime
-from typing import Optional, Union
+from typing import Optional, Union, cast, List, Dict
 
 from .api import AIConversationClient
 from .factory import AIClientFactory
@@ -145,14 +145,14 @@ class MockAIClient(AIConversationClient):
     def get_chat_history(
         self, session_id: str, limit: Optional[int] = None
     ) -> list[dict[str, Union[str, datetime]]]:
-        """Retrieve conversation history for a session.
+        """Get the chat history for a session.
 
         Args:
-            session_id: Unique identifier for the conversation session.
-            limit: Maximum number of messages to retrieve.
+            session_id: Session identifier to get history for.
+            limit: Optional limit on number of messages to return.
 
         Returns:
-            List of message dictionaries.
+            List of message dictionaries containing content and timestamp.
 
         Raises:
             ValueError: If the session_id does not exist.
@@ -165,7 +165,7 @@ class MockAIClient(AIConversationClient):
         if limit is not None:
             history = history[-limit:]
 
-        return history
+        return cast(List[Dict[str, Union[str, datetime]]], history)
 
     def start_new_session(self, user_id: str, model: Optional[str] = None) -> str:
         """Start a new conversation session.
@@ -188,7 +188,7 @@ class MockAIClient(AIConversationClient):
         if model not in available_model_ids:
             raise ValueError(
                 f"Model {model} is not available. "
-                f"Available models: {', '.join(available_model_ids)}"
+                f"Available models: {', '.join(available_model_ids)}"  # type: ignore[arg-type]
             )
 
         # Generate a unique session ID
@@ -226,7 +226,7 @@ class MockAIClient(AIConversationClient):
         Returns:
             List of model dictionaries.
         """
-        return self.AVAILABLE_MODELS
+        return cast(list[dict[str, Union[str, list[str], int, bool]]], self.AVAILABLE_MODELS)
 
     def switch_model(self, session_id: str, model_id: str) -> bool:
         """Change the AI model for an active session.
@@ -251,7 +251,7 @@ class MockAIClient(AIConversationClient):
         if model_id not in available_model_ids:
             raise ValueError(
                 f"Model {model_id} is not available. "
-                f"Available models: {', '.join(available_model_ids)}"
+                f"Available models: {', '.join(available_model_ids)}"  # type: ignore[arg-type]
             )
 
         # Switch the model
@@ -319,7 +319,7 @@ class MockAIClient(AIConversationClient):
                 "cost_estimate": 0.0,
             }
 
-        return self._sessions[session_id]["metrics"]
+        return cast(dict[str, Union[int, float]], self._sessions[session_id]["metrics"])
 
     def summarize_conversation(self, session_id: str) -> str:
         """Generate a mock summary of the conversation.
