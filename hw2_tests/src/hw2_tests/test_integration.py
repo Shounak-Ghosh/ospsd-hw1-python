@@ -35,9 +35,9 @@ def mail_client() -> gmail_client.GmailClient:
         def connect(self) -> bool:
             return True
 
-        def get_emails(self, _: str = "") -> list[dict[str, str]]:
-            # Return some mock emails
-            return [
+        def get_emails(self, query: str = "") -> list[dict[str, str]]:
+            # Use the `query` argument to filter mock emails
+            mock_emails = [
                 {
                     "id": "1",
                     "subject": "Test Email 1",
@@ -55,6 +55,11 @@ def mail_client() -> gmail_client.GmailClient:
                     "body": "This is a test email 2",
                 },
             ]
+            # Filter emails based on the query (case-insensitive match in subject or body)
+            return [
+                email for email in mock_emails
+                if query.lower() in email["subject"].lower() or query.lower() in email["body"].lower()
+            ]
 
     return MockGmailClient()
 
@@ -66,8 +71,13 @@ def ai_client() -> api.AIConversationClient:
         def __init__(self, api_key: str | None = None) -> None:
             self.api_key = api_key or "mock-api-key"
 
-        def start_new_session(self, _: str, __: str | None = None) -> str:
-            return "mock-session-id"
+        def start_new_session(self, user_id: str, model: str | None = None) -> str:
+            # Log the `user_id` and `model` arguments for debugging
+            if model:
+                pass
+            else:
+                pass
+            return f"mock-session-id-{user_id}-{model or 'default'}"
 
         def send_message(self, _: str, __: str, ___: list | None = None) -> dict:
             return {"content": "75.5"}
@@ -115,8 +125,13 @@ def test_spam_detection_handles_ai_errors(spam_detector: SpamDetector, temp_csv_
             msg = "Simulated AI error"
             raise RuntimeError(msg)
 
-        def start_new_session(self, _: str, __: str | None = None) -> str:
-            return "mock-session-id"
+        def start_new_session(self, user_id: str, model: str | None = None) -> str:
+            # Log the `user_id` and `model` arguments for debugging
+            if model:
+                pass
+            else:
+                pass
+            return f"mock-session-id-{user_id}-{model or 'default'}"
 
         def end_session(self, _: str) -> bool:
             return True
