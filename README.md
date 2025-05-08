@@ -75,6 +75,10 @@ Make sure that development dependencies are installed.
     ```bash
     uv run pytest hw2_tests/src/hw2_tests/test_integration.py -v
     ```
+5. **End-to-End Tests**:
+    ```bash
+    uv run pytest hw2_tests/src/hw2_tests/test_e2e.py -v                           
+    ```
 
 ### CircleCI Links
 [CircleCI Success](https://app.circleci.com/pipelines/circleci/2EVebjbqRx5Qx95NT3zacE/9QkZ1CbHsQnVrG2Rq1GqqR/123/workflows/1aa9a520-575c-45b3-a32f-c057e8de7389)
