@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import csv
 import tempfile
+from collections.abc import Generator
 from pathlib import Path
-from typing import TYPE_CHECKING, Generator
+from typing import TYPE_CHECKING
 
 import pytest
 from dotenv import load_dotenv
@@ -101,10 +102,9 @@ def ai_client() -> api.AIConversationClient:
             # Return different spam probabilities based on email content
             if "URGENT" in message or "WIN" in message or "FREE" in message:
                 return {"content": "85.5"}
-            elif "meeting" in message.lower() or "project" in message.lower():
+            if "meeting" in message.lower() or "project" in message.lower():
                 return {"content": "5.5"}
-            else:
-                return {"content": "25.5"}
+            return {"content": "25.5"}
 
         def end_session(self, _: str) -> bool:
             return True
@@ -166,9 +166,6 @@ def test_complete_spam_detection_flow(spam_detector: SpamDetector, temp_csv_path
 
 def test_spam_detection_with_query_filter(spam_detector: SpamDetector, temp_csv_path: Path) -> None:
     """Test spam detection with a specific query filter."""
-    # Get emails with query filter first
-    emails = spam_detector.crawl_emails(max_count=MAX_EMAILS, query="meeting")
-    
     # Run spam detection
     spam_detector.detect_spam(output_csv=str(temp_csv_path), max_emails=MAX_EMAILS)
     
