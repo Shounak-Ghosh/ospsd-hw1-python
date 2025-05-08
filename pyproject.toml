@@ -20,18 +20,18 @@ dev = [
     "types-setuptools>=42.0.0",
 ]
 
+[tool.uv.workspace]
+members = ["src/calculator", "src/logger", "src/notifier", "tests"]
+
+
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "E501",  # Ignore line length issues since no need to go over 100 characters
-    "W293", # White spaces are used for indentation in doc strings
-    "S101", # Use of assertion should be okay in test files
-    "D203", #incompatible with D211 
-    "D213", #incompatible with D212
-    "F811", # Allow function redefinition in tests
-    "N803", # Allow uppercase parameter names to match Gmail API
-    "A002", # Allow shadowing of built-in names in parameters
+    "D203", #incompatible with D211 (D211 suggests no blank line before docstring. D203 suggest a blank line)
+    "D213", #incompatible with D212 (D213 suggests multi-line docstrings to start on a new line. D212 requires on the same line.)
 ]
+[tool.ruff.lint.per-file-ignores]
+"**/test_*.py" = ["S101", "PLR2004"]  # Allow assertions and magic numbers in test files
 fixable = ["ALL"]  # Allow Ruff to auto-fix issues
 
 [tool.setuptools]

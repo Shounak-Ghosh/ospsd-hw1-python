@@ -1,18 +1,19 @@
-"""Integration test module for calculator and logger components."""
+"""Integration tests for calculator and logger."""
 
-from src.calculator import add
-from src.logger import OperationLogger
+from src.calculator.calculator import add
+from src.logger import Logger
 
-# Test constants
-TEST_VALUE_A = 5
-TEST_VALUE_B = 3
 
 def test_calc_logger_integration() -> None:
-    """Test integration between calculator and logger components."""
-    logger = OperationLogger()
-    result = add(TEST_VALUE_A, TEST_VALUE_B)
-    logger.log_operation(f"{TEST_VALUE_A} + {TEST_VALUE_B} = {result}")
-    
+    """Test integration between calculator and logger."""
+    # Setup
+    logger = Logger()
+
+    # Perform operation
+    result = add(5, 10)  # 5 + 10 = 15
+    logger.log_operation(f"5 + 10 = {result}")
+
+    # Verify results
     history = logger.get_history()
     assert len(history) == 1
-    assert f"{TEST_VALUE_A} + {TEST_VALUE_B} = {result}" in history[0]
+    assert "5 + 10 = 15" in history[0]

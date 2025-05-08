@@ -1,8 +1,5 @@
-"""Logger Component API.
+"""Logger package for tracking operations."""
 
-This component provides operation logging functionality.
-"""
+from .logger import Logger
 
-from .logger import OperationLogger
-
-__all__ = ["OperationLogger"]
+__all__ = ["Logger"]

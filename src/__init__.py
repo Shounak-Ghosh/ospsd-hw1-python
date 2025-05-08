@@ -1,17 +1,17 @@
-"""Calculator application with logging and notification capabilities."""
+"""Calculator application package."""
 
 # Using calculator
-from .calculator import add, divide, multiply, subtract
+from src.calculator.calculator import add, divide, multiply, subtract
 
 # Using logger
-from .logger import OperationLogger
+from src.logger import Logger
 
 # Using notifier
-from .notifier import Notifier
+from src.notifier.notifier import Notifier
 
 __all__ = [
+    "Logger",
     "Notifier",
-    "OperationLogger",
     "add",
     "divide",
     "multiply",

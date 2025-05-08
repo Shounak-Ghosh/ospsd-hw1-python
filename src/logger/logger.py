@@ -3,26 +3,26 @@
 from datetime import datetime, timezone
 
 
-class OperationLogger:
-    """Logger class for tracking calculator operations."""
+class Logger:
+    """Logger class for tracking operations."""
 
     def __init__(self) -> None:
-        """Initialize an empty operation history."""
+        """Initialize logger with empty history."""
         self.history: list[str] = []
 
     def log_operation(self, operation: str) -> None:
         """Log an operation with timestamp.
-        
+
         Args:
             operation: The operation to log
 
         """
         timestamp = datetime.now(tz=timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
-        self.history.append(f"{operation} @ {timestamp}")
+        self.history.append(f"[{timestamp}] {operation}")
 
     def get_history(self) -> list[str]:
         """Get the history of operations.
-        
+
         Returns:
             List of logged operations with timestamps
 

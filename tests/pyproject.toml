@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hw1_tests"
+version = "0.1.0"
+description = "Tests for homework 1"
+readme = "README.md"
+requires-python = ">=3.9"
+
+[tool.uv.sources]
+calculator = { workspace = true }
+logger = { workspace = true }
+notifier = { workspace = true }
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tests"]

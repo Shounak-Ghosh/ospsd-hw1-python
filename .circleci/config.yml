@@ -20,12 +20,7 @@ commands:
             uv venv
             source .venv/bin/activate
             # Install root project dependencies
-            uv sync --extra dev
-            # Install component dependencies
-            cd src/calculator && uv sync --extra dev
-            cd ../logger && uv sync --extra dev
-            cd ../notifier && uv sync --extra dev
-            cd ../..
+            uv sync && uv sync --extra dev
 
 jobs:
   lint-and-static-analysis:
@@ -35,11 +30,11 @@ jobs:
       - run:
           name: Run Ruff (Code Formatting and Linting)
           command: |
-            uv run ruff check src tests 
+            uv run ruff check .
       - run:
           name: Run Mypy (Static Type Checking)
           command: |
-            uv run mypy src 
+            uv run mypy . 
 
   test:
     executor: python-executor
