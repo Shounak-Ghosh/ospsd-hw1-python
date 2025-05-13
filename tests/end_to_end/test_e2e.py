@@ -1,22 +1,23 @@
-from src.calculator import add
-from src.logger.logger import OperationLogger
+"""End-to-end tests for the calculator application."""
+
+from src.calculator.calculator import add
+from src.logger import Logger
 from src.notifier.notifier import Notifier
 
-def test_end_to_end():
-    logger = OperationLogger()
-    notifier = Notifier(threshold=10)
 
-    # Perform calculation and log it.
-    result = add(7, 8)
-    logger.log_operation(f"7 + 8 = {result}")
+def test_e2e_flow() -> None:
+    """Test the complete flow of calculator operations."""
+    # Setup
+    logger = Logger()
+    notifier = Notifier(threshold=10)  # Alert if result > 10
 
-    # Send notification if needed.
-    alert_message = notifier.send_notification(result)
+    # Perform operation
+    result = add(5, 3)  # 5 + 3 = 8
+    logger.log_operation(f"5 + 3 = {result}")
+    notification = notifier.send_notification(result)
 
-    # Assertions for E2E flow.
+    # Verify results
     history = logger.get_history()
-    
     assert len(history) == 1
-    assert "7 + 8 = 15" in history[0]
-    
-    assert alert_message == "Alert! Result 15 exceeds threshold 10"
+    assert "5 + 3 = 8" in history[0]
+    assert notification == "No alert needed"

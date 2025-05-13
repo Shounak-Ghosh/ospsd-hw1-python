@@ -1,21 +1,23 @@
-from unittest.mock import MagicMock
-from src.logger.logger import OperationLogger
+"""Integration tests for calculator and notifier."""
 
-def test_logger_notifier_integration():
-    # Mock Notifier
-    mock_notifier = MagicMock()
-    mock_notifier.send_notification.return_value = "Mocked alert"
+from src.calculator.calculator import add
+from src.logger import Logger
+from src.notifier.notifier import Notifier
 
-    logger = OperationLogger()
 
-    result = 15  # Example result
-    logger.log_operation(f"Result is {result}")
+def test_calc_notifier_integration() -> None:
+    """Test integration between calculator and notifier."""
+    # Setup
+    logger = Logger()
+    notifier = Notifier(threshold=7)  # Alert if result > 7
 
-    alert_message = mock_notifier.send_notification(result)
+    # Perform operation
+    result = add(5, 10)  # 5 + 10 = 15
+    logger.log_operation(f"5 + 10 = {result}")
+    notification = notifier.send_notification(result)
 
-    # Assertions
-    assert "Result is 15" in logger.get_history()[0]
-    assert alert_message == "Mocked alert"
-
-    # Verify notifier behavior
-    mock_notifier.send_notification.assert_called_once_with(result)
+    # Verify results
+    history = logger.get_history()
+    assert len(history) == 1
+    assert "5 + 10 = 15" in history[0]
+    assert notification == "Alert! Result 15 exceeds threshold 7"

@@ -1,29 +1,31 @@
-from datetime import datetime
+"""Logger module for tracking operations."""
 
-class OperationLogger:
+from datetime import datetime, timezone
+from typing import List
+
+
+class Logger:
+    """Logger class for tracking operations."""
+
     def __init__(self) -> None:
-        """Initializes the OperationLogger with an empty history list.
-        """
-        self.history: list[str] = []
+        """Initialize logger with empty history."""
+        self.history: List[str] = []
 
     def log_operation(self, operation: str) -> None:
-        """Logs an operation with a timestamp.
+        """Log an operation with timestamp.
 
         Args:
-            operation (str): The operation description to be logged.
-
-        Returns:
-            None
+            operation: The operation to log
 
         """
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.history.append(f"{operation} @ {timestamp}")
+        timestamp = datetime.now(tz=timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+        self.history.append(f"[{timestamp}] {operation}")
 
-    def get_history(self) -> list[str]:
-        """Returns the logged history.
+    def get_history(self) -> List[str]:
+        """Get the history of operations.
 
         Returns:
-            list[str]: The list of logged operations.
+            List of logged operations with timestamps
 
         """
         return self.history
